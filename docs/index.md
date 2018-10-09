@@ -71,7 +71,8 @@ This is some more text.
 
 **Limitations**
 
-* Nested tabs are not supported (i.e. tabs within tabs, block quotes, list items, etc).
+* Nested tabs are not supported (i.e. tabs within tabs, list items, etc).
+* Tabs wraps when their combined width exceeds the content area width.
 
 ## Installation
 
