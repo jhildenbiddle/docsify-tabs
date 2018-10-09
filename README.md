@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/docsify-tabs/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=docsify,developers,frontend,plugin)
 
-A [docsify.js](https://docsify.js.org) plugin for displaying tabbed content.
+A [docsify.js](https://docsify.js.org) plugin for displaying tabbed content from markdown.
 
 - [Documentation / Demos](https://jhildenbiddle.github.io/docsify-tabs)
 
