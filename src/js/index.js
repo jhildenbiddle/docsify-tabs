@@ -81,27 +81,35 @@ function renderTabsStage1(content) {
 
     // Process each tab set
     while ((tabBlockMatch = regex.tabBlockMarkup.exec(content)) !== null) {
-        const tabBlockStart = tabBlockMatch[1];
-        const tabBlockEnd   = tabBlockMatch[3];
+        let tabBlock            = tabBlockMatch[0];
+        let tabStartReplacement = '';
+        let tabEndReplacement   = '';
 
-        let tabBlock = tabBlockMatch[0];
+        const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlock);
+        const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlock);
+        const tabBlockStart  = tabBlockMatch[1];
+        const tabBlockEnd    = tabBlockMatch[3];
 
-        // Process each tab panel
-        while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlock) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlock) : null)) !== null) {
-            const tabTitle   = (tabMatch[1] || '[Tab]').trim();
-            const tabContent = tabMatch[2] || '';
+        if (hasTabComments || hasTabHeadings) {
+            tabStartReplacement = `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`;
+            tabEndReplacement = `<!-- ${commentReplaceMark} </div> -->`;
 
-            tabBlock = tabBlock.replace(tabMatch[0], [
-                `<button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button>`,
-                `<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
-                `${tabContent}`,
-                `<!-- ${commentReplaceMark} </div> -->\n\n`
-            ].join('\n\n'));
+            // Process each tab panel
+            while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlock) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlock) : null)) !== null) {
+                const tabTitle   = (tabMatch[1] || '[Tab]').trim();
+                const tabContent = tabMatch[2] || '';
+
+                tabBlock = tabBlock.replace(tabMatch[0], [
+                    `<button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button>`,
+                    `<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
+                    `${tabContent}`,
+                    `<!-- ${commentReplaceMark} </div> -->\n\n`
+                ].join('\n\n'));
+            }
         }
 
-        tabBlock = tabBlock.replace(tabBlockStart, `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`);
-        tabBlock = tabBlock.replace(tabBlockEnd, `<!-- ${commentReplaceMark} </div> -->`);
-
+        tabBlock = tabBlock.replace(tabBlockStart, tabStartReplacement);
+        tabBlock = tabBlock.replace(tabBlockEnd, tabEndReplacement);
         content = content.replace(tabBlockMatch[0], tabBlock);
     }
 
