@@ -230,16 +230,18 @@ if (window) {
                 hasTabs = regex.tabBlockMarkup.test(content);
 
                 if (hasTabs) {
-                    return renderTabsStage1(content);
+                    content = renderTabsStage1(content);
                 }
+
+                return content;
             });
 
             hook.afterEach(function(html, next) {
                 if (hasTabs) {
                     html = renderTabsStage2(html);
-
-                    next(html);
                 }
+
+                next(html);
             });
 
             hook.doneEach(function() {
