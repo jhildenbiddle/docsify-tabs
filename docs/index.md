@@ -506,8 +506,8 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
 
 #### **JSBin**
 
-<a class="jsbin-embed" href="//jsbin.com/iwovaj/74/embed?js,output&height=350px">Demo: Simple Animation Tests</a>
-<script src="//static.jsbin.com/js/embed.js"></script>
+<a class="jsbin-embed" href="https://jsbin.com/iwovaj/74/embed?js,output&height=350px">Demo: Simple Animation Tests</a>
+<script src="https://static.jsbin.com/js/embed.js"></script>
 
 **Tab Markdown**
 
