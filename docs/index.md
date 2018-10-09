@@ -286,9 +286,15 @@ window.$docsify = {
 
 **Demo**
 
-<label><input name="theme" type="radio" value="classic" checked="checked"> Classic</label>
-<label><input name="theme" type="radio" value="material"> Material</label>
-<label><input name="theme" type="radio" value="none"> No Theme</label>
+<label data-class-target="label + .docsify-tabs" data-class-remove="docsify-tabs--material" data-class-add="docsify-tabs--classic">
+  <input name="theme" type="radio" value="classic" checked="checked"> Classic
+</label>
+<label data-class-target="label + .docsify-tabs" data-class-remove="docsify-tabs--classic" data-class-add="docsify-tabs--material">
+  <input name="theme" type="radio" value="material"> Material
+</label>
+<label data-class-target="label + .docsify-tabs" data-class-remove="docsify-tabs--classic docsify-tabs--material">
+  <input name="theme" type="radio" value="none"> No Theme
+</label>
 
 <!-- tabs:start -->
 
