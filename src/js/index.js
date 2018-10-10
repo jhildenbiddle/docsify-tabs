@@ -63,7 +63,7 @@ const settings = {
  * @returns {string}
  */
 function renderTabsStage1(content) {
-    const codeBlockMatch   = content.match(regex.codeMarkup);
+    const codeBlockMatch   = content.match(regex.codeMarkup) || [];
     const codeBlockMarkers = codeBlockMatch.map((item, i) => {
         const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
 
