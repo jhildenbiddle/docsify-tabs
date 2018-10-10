@@ -8,7 +8,7 @@ import '../scss/style.scss';
 // =============================================================================
 const commentReplaceMark = 'tabs:replace';
 const classNames = {
-    tabsContainer  : 'markdown-section',
+    tabsContainer  : 'content',
     tabBlock       : 'docsify-tabs',
     tabButton      : 'docsify-tabs__tab',
     tabButtonActive: 'docsify-tabs__tab--active',
@@ -205,6 +205,43 @@ function setActiveTab(elm, isSync) {
 
 // Plugin
 // =============================================================================
+function docsifyTabs(hook, vm) {
+    let hasTabs =false;
+
+    hook.beforeEach(function(content) {
+        hasTabs = regex.tabBlockMarkup.test(content);
+
+        if (hasTabs) {
+            content = renderTabsStage1(content);
+        }
+
+        return content;
+    });
+
+    hook.afterEach(function(html, next) {
+        if (hasTabs) {
+            html = renderTabsStage2(html);
+        }
+
+        next(html);
+    });
+
+    hook.doneEach(function() {
+        if (hasTabs) {
+            setDefaultTabs();
+        }
+    });
+
+    hook.mounted(function() {
+        const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
+
+        tabsContainer && tabsContainer.addEventListener('click', function(evt) {
+            setActiveTab(evt.target);
+        });
+    });
+}
+
+
 if (window) {
     window.$docsify = window.$docsify || {};
 
@@ -223,40 +260,9 @@ if (window) {
 
     // Init plugin
     if (settings.tabComments || settings.tabHeadings) {
-        (window.$docsify.plugins || []).push(function plugin(hook, vm) {
-            let hasTabs =false;
-
-            hook.beforeEach(function(content) {
-                hasTabs = regex.tabBlockMarkup.test(content);
-
-                if (hasTabs) {
-                    content = renderTabsStage1(content);
-                }
-
-                return content;
-            });
-
-            hook.afterEach(function(html, next) {
-                if (hasTabs) {
-                    html = renderTabsStage2(html);
-                }
-
-                next(html);
-            });
-
-            hook.doneEach(function() {
-                if (hasTabs) {
-                    setDefaultTabs();
-                }
-            });
-
-            hook.ready(function() {
-                const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
-
-                tabsContainer && tabsContainer.addEventListener('click', function(evt) {
-                    setActiveTab(evt.target);
-                });
-            });
-        });
+        window.$docsify.plugins = [].concat(
+            docsifyTabs,
+            (window.$docsify.plugins || [])
+        );
     }
 }
