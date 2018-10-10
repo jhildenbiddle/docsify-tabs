@@ -1,6 +1,6 @@
 {
   "name": "docsify-tabs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A docsify.js plugin for displaying tabbed content from markdown",
   "author": "John Hildenbiddle",
   "license": "MIT",
