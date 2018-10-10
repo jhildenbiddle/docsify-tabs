@@ -6,7 +6,7 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=docsify,developers,frontend,plugin)
 <a class="github-button" href="https://github.com/jhildenbiddle/docsify-tabs" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/docsify-tabs on GitHub">Star</a>
 
-A [docsify.js](https://docsify.js.org) plugin for displaying tabbed content from markdown.
+A [docsify.js](https://docsify.js.org) plugin for rendering tabbed content from markdown.
 
 ## Demo
 
