@@ -29,19 +29,19 @@ const regex = {
     // 1: Start comment: <!-- tabs:start -->
     // 2: Labels and content
     // 3: End comment: <!-- tabs:end -->
-    tabBlockMarkup: /^(<!-+\s+tabs:\s*?start\s+-+>)\n+([\s|\S]*?)\n+(<!-+\s+tabs:\s*?end\s+-+>)/m,
+    tabBlockMarkup: /^(<!-+\s+tabs:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n]+(<!-+\s+tabs:\s*?end\s+-+>)/m,
 
     // Matches tab label and content
     // 0: Match
     // 1: Label: <!-- tab:Label -->
     // 2: Content
-    tabCommentMarkup: /^<!-+\s+tab:\s*(.*)\s+-+>\n+([\s\S]*?)\n+(?=<!-+\s+tabs?:)/m,
+    tabCommentMarkup: /^<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]+(?=<!-+\s+tabs?:)/m,
 
     // Matches tab label and content
     // 0: Match
     // 1: Label: #### **Label** OR #### __Label__
     // 2: Content
-    tabHeadingMarkup: /^#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}\n+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
+    tabHeadingMarkup: /^#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
 };
 const settings = {
     persist    : true,
