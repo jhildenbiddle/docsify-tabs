@@ -100,7 +100,7 @@ function renderTabsStage1(content) {
                 const tabContent = tabMatch[2] || '';
 
                 tabBlock = tabBlock.replace(tabMatch[0], [
-                    `<button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button>`,
+                    `<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button> -->`,
                     `<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
                     `${tabContent}`,
                     `<!-- ${commentReplaceMark} </div> -->\n\n`

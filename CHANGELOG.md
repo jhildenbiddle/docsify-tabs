@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.6
+
+*2018-11-01*
+
+- Fixed rendering issue caused by marked package upgrade in docsify 4.8.0
+
 ## 1.0.5
 
 *2018-10-11*
