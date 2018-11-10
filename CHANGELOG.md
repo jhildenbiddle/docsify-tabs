@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.0
+
+*2018-11-10*
+
+- Added support for tabsets nested within lists.
+
 ## 1.0.6
 
 *2018-11-01*

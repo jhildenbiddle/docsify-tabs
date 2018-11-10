@@ -71,7 +71,7 @@ This is some more text.
 
 **Limitations**
 
-* Nested tabs are not supported (i.e. tabs within tabs, list items, etc).
+* Nested tabsets (i.e. tabs within tabs) are not supported.
 * Tabs wraps when their combined width exceeds the content area width.
 
 ## Installation
@@ -121,61 +121,59 @@ This is some more text.
 
 ## Usage
 
-**Define a tab set using `tabs:start` and `tabs:end` HTML comments.**
+1. Define a tab set using `tabs:start` and `tabs:end` HTML comments.
 
-HTML comments are used to mark the start and end of a tab set. The use of HTML comments prevents tab-related markup from being displayed when markdown is rendered as HTML outside of your docsify site (e.g. Github, GitLab, etc).
+   HTML comments are used to mark the start and end of a tab set. The use of HTML comments prevents tab-related markup from being displayed when markdown is rendered as HTML outside of your docsify site (e.g. Github, GitLab, etc).
 
-```markdown
-<!-- tabs:start -->
+   ```markdown
+   <!-- tabs:start -->
 
-...
+   ...
 
-<!-- tabs:end -->
-```
+   <!-- tabs:end -->
+   ```
 
-**Define tabs within a tab set using heading + bold markdown.**
+1. Define tabs within a tab set using heading + bold markdown.
 
-Heading text will be used as the tab label, and all proceeding content will be associated with that tab up to start of the next tab or a `tab:end` comment. The use of heading + bold markdown allows tabs to be defined using standard markdown and ensures that tab content is displayed with a heading when rendered outside of your docsify site (e.g. GitHub, GitLab, etc).
+   Heading text will be used as the tab label, and all proceeding content will be associated with that tab up to start of the next tab or a `tab:end` comment. The use of heading + bold markdown allows tabs to be defined using standard markdown and ensures that tab content is displayed with a heading when rendered outside of your docsify site (e.g. GitHub, GitLab, etc).
 
-```markdown
-<!-- tabs:start -->
+   ```markdown
+   <!-- tabs:start -->
 
-#### ** English **
+   #### ** English **
 
-Hello!
+   Hello!
 
-#### ** French **
+   #### ** French **
 
-Bonjour!
+   Bonjour!
 
-#### ** Italian **
+   #### ** Italian **
 
-Ciao!
+   Ciao!
 
-<!-- tabs:end -->
-```
+   <!-- tabs:end -->
+   ```
 
-See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs within tab sets.
+1. See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs within tab sets.
 
-**Voilà!**
+   Voilà! A tab set is formed.
 
-A tab set is formed.
+   <!-- tabs:start -->
 
-<!-- tabs:start -->
+   #### **English**
 
-#### **English**
+   Hello!
 
-Hello!
+   #### **French**
 
-#### **French**
+   Bonjour!
 
-Bonjour!
+   #### **Italian**
 
-#### **Italian**
+   Ciao!
 
-Ciao!
-
-<!-- tabs:end -->
+   <!-- tabs:end -->
 
 ## Options
 

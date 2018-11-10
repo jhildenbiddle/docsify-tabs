@@ -26,22 +26,23 @@ const regex = {
 
     // Matches tab set by start/end comment
     // 0: Match
-    // 1: Start comment: <!-- tabs:start -->
-    // 2: Labels and content
-    // 3: End comment: <!-- tabs:end -->
-    tabBlockMarkup: /^(<!-+\s+tabs:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n]+(<!-+\s+tabs:\s*?end\s+-+>)/m,
+    // 1: Indent
+    // 2: Start comment: <!-- tabs:start -->
+    // 3: Labels and content
+    // 4: End comment: <!-- tabs:end -->
+    tabBlockMarkup: /[\r\n]*(\s*)(<!-+\s+tabs:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n\s]+(<!-+\s+tabs:\s*?end\s+-+>)/m,
 
     // Matches tab label and content
     // 0: Match
     // 1: Label: <!-- tab:Label -->
     // 2: Content
-    tabCommentMarkup: /^<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]+(?=<!-+\s+tabs?:)/m,
+    tabCommentMarkup: /<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]+(?=<!-+\s+tabs?:)/m,
 
     // Matches tab label and content
     // 0: Match
     // 1: Label: #### **Label** OR #### __Label__
     // 2: Content
-    tabHeadingMarkup: /^#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
+    tabHeadingMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
 };
 const settings = {
     persist    : true,
@@ -87,24 +88,25 @@ function renderTabsStage1(content) {
 
         const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlock);
         const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlock);
-        const tabBlockStart  = tabBlockMatch[1];
-        const tabBlockEnd    = tabBlockMatch[3];
+        const tabBlockIndent  = tabBlockMatch[1];
+        const tabBlockStart  = tabBlockMatch[2];
+        const tabBlockEnd    = tabBlockMatch[4];
 
         if (hasTabComments || hasTabHeadings) {
             tabStartReplacement = `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`;
-            tabEndReplacement = `<!-- ${commentReplaceMark} </div> -->`;
+            tabEndReplacement = `\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`;
 
             // Process each tab panel
             while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlock) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlock) : null)) !== null) {
-                const tabTitle   = (tabMatch[1] || '[Tab]').trim();
-                const tabContent = tabMatch[2] || '';
+                const tabTitle   = (tabMatch[2] || '[Tab]').trim();
+                const tabContent = (tabMatch[3] || '').trim();
 
                 tabBlock = tabBlock.replace(tabMatch[0], [
-                    `<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button> -->`,
-                    `<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
-                    `${tabContent}`,
-                    `<!-- ${commentReplaceMark} </div> -->\n\n`
-                ].join('\n\n'));
+                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button> -->`,
+                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
+                    `\n\n${tabBlockIndent}${tabContent}`,
+                    `\n\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`,
+                ].join(''));
             }
         }
 
