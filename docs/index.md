@@ -318,7 +318,7 @@ Yes, this is even more text.
 
 Determines if tabs within a tab set can be defined using tab comments.
 
-Note that defining tabs using HTML comments means tab content will not be labeled when rendered outside of your docsify site (e.g. GitHub, GitLab, etc). For this reason, defining tabs using [`options.tabheadings`](#optionstabheadings) is recommended.
+Note that defining tabs using HTML comments means tab content will not be labeled when rendered outside of your docsify site (e.g. GitHub, GitLab, etc). For this reason, defining tabs using [`options.tabHeadings`](#tabheadings) is recommended.
 
 **Configuration**
 
