@@ -155,9 +155,9 @@ This is some more text.
    <!-- tabs:end -->
    ```
 
-1. See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs within tab sets.
+   See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs within tab sets.
 
-   Voilà! A tab set is formed.
+1. Voilà! A tab set is formed.
 
    <!-- tabs:start -->
 
@@ -318,6 +318,8 @@ Yes, this is even more text.
 
 Determines if tabs within a tab set can be defined using tab comments.
 
+Note that defining tabs using HTML comments means tab content will not be labeled when rendered outside of your docsify site (e.g. GitHub, GitLab, etc). For this reason, defining tabs using [`options.tabheadings`](#optionstabheadings) is recommended.
+
 **Configuration**
 
 ```javascript
@@ -454,7 +456,7 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
   color: transparent;
 }
 .docsify-tabs__tab[data-tab="icon only"]:before {
-  content: url(https://icongr.am/feather/image.svg?size=18&color=999999);
+  content: url(path/to/image.png);
   vertical-align: middle;
 }
 ```
@@ -471,7 +473,7 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
 
 ```css
 [data-tab="icon + label"]:before {
-  content: url(https://icongr.am/feather/image.svg?size=18&color=999999);
+  content: url(path/to/image.png);
   height: 16px;
   margin-right: 0.5em;
   vertical-align: middle;
