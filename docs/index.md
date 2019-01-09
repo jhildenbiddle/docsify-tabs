@@ -79,17 +79,10 @@ This is some more text.
 1. Add the docsify-tabs plugin to your `index.html` after `docsify.min.js`.
 
    ```html
-   <!-- docsify -->
-   <script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
+   <!-- docsify (latest v4.x.x)-->
+   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 
-   <!-- docsify-tabs v1.x -->
-   <script src="https://unpkg.com/docsify-tabs@1"></script>
-   ```
-
-   Also available on [jsdelivr.net](https://cdn.jsdelivr.net/npm/docsify-tabs@1):
-
-   ```html
-   <!-- docsify-tabs v1.x -->
+   <!-- docsify-tabs (latest v1.x.x) -->
    <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
    ```
 
