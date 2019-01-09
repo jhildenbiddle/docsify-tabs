@@ -76,11 +76,11 @@ This is some more text.
 
 ## Installation
 
-1. Add the docsify-tabs plugin to your `index.html` after `docsify.min.js`.
+1. Add the docsify-tabs plugin to your `index.html` after docsify.
 
    ```html
    <!-- docsify (latest v4.x.x)-->
-   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
 
    <!-- docsify-tabs (latest v1.x.x) -->
    <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
