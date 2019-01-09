@@ -19,4 +19,4 @@ A [docsify.js](https://docsify.js.org) plugin for rendering tabbed content from 
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/jhildenbiddle/docsify-tabs/blob/master/LICENSE) for details.
 
-Copyright (c) 2018 John Hildenbiddle ([@jhildenbiddle](https://twitter.com/jhildenbiddle))
+Copyright (c) John Hildenbiddle ([@jhildenbiddle](https://twitter.com/jhildenbiddle))
