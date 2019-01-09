@@ -1,5 +1,15 @@
 # Change Log
 
+## 1.1.2
+
+*2019-01-08*
+
+- Add Sentry.io
+- Update dependencies
+- Update CDN links (switch from unpkg to jsdelivr)
+- Fix rollup plugin configuration
+- Fix website landscape display on notched devices
+
 ## 1.1.0
 
 *2018-11-10*
