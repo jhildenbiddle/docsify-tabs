@@ -30,10 +30,14 @@ browserSync.init({
         './dist/'
     ],
     rewriteRules: [
+        // Replace CDN URLs with local paths
         {
-            // Replace CDN default with local js path
-            match  : /"https:\/\/unpkg\.com\/docsify-tabs"/g,
-            replace: '"/docsify-tabs.min.js"'
+            match  : /https:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1\/dist\//g,
+            replace: '/'
+        },
+        {
+            match  : /https:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1/g,
+            replace: '/docsify-tabs.min.js'
         }
     ]
 });
