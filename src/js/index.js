@@ -252,7 +252,7 @@ if (window) {
 
     // Update settings based on $docsify config
     Object.keys(window.$docsify.tabs).forEach(key => {
-        if (settings.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(settings, key)) {
             settings[key] = window.$docsify.tabs[key];
         }
     });
