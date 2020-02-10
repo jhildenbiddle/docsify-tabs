@@ -36,7 +36,7 @@ const regex = {
     // 0: Match
     // 1: Label: <!-- tab:Label -->
     // 2: Content
-    tabCommentMarkup: /<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]+(?=<!-+\s+tabs?:)/m,
+    tabCommentMarkup: /[\r\n]*(\s*)<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+tabs?:)/m,
 
     // Matches tab label and content
     // 0: Match
@@ -88,7 +88,7 @@ function renderTabsStage1(content) {
 
         const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlock);
         const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlock);
-        const tabBlockIndent  = tabBlockMatch[1];
+        const tabBlockIndent = tabBlockMatch[1];
         const tabBlockStart  = tabBlockMatch[2];
         const tabBlockEnd    = tabBlockMatch[4];
 
