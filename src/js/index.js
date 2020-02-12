@@ -148,15 +148,25 @@ function renderTabsStage2(html) {
  * group or the last tab clicked (if persist option is enabled).
  */
 function setDefaultTabs() {
-    const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
-    const tabBlocks     = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
-    const tabStorage    = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
+    const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
+    const tabBlocks         = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
+    const tabStoragePersist = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
+    const tabStorageSync    = JSON.parse(sessionStorage.getItem('*')) || [];
 
     tabBlocks.forEach((tabBlock, index) => {
-        const activeButtonDefault = tabBlock.querySelector(`.${classNames.tabButton}`);
-        const activeButtonPersist = settings.persist ? tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${tabStorage[index]}"]`) : null;
-        const activeButton        = activeButtonPersist || activeButtonDefault;
+        let activeButton;
 
+        if (settings.sync && tabStorageSync.length) {
+            activeButton = tabStorageSync
+                .map(label => tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${label}"]`))
+                .filter(elm => elm)[0];
+        }
+
+        if (!activeButton && settings.persist) {
+            activeButton = tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`);
+        }
+
+        activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
         activeButton && activeButton.classList.add(classNames.tabButtonActive);
     });
 }
@@ -165,10 +175,9 @@ function setDefaultTabs() {
  * Sets the active tab within a group. Optionally stores the selection so it can
  * persist across page loads and syncs active state to tabs with same data attr.
  *
- * @param {object} elm
- * @param {boolean} isSync
+ * @param {object} elm Tab toggle element to mark as active
  */
-function setActiveTab(elm, isSync) {
+function setActiveTab(elm, _isMatchingTabSync = false) {
     const isTabButton = elm.classList.contains(classNames.tabButton);
 
     if (isTabButton) {
@@ -182,24 +191,38 @@ function setActiveTab(elm, isSync) {
         tabButtons.forEach(buttonElm => buttonElm.classList.remove(classNames.tabButtonActive));
         activeButton.classList.add(classNames.tabButtonActive);
 
-        if (settings.persist) {
-            const tabBlocks     = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
-            const tabBlockIndex = tabBlocks.indexOf(tabBlock);
-            const tabStorage    = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
+        if (!_isMatchingTabSync) {
+            if (settings.persist) {
+                const tabBlocks     = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
+                const tabBlockIndex = tabBlocks.indexOf(tabBlock);
+                const tabStorage    = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
 
-            tabStorage[tabBlockIndex] = activeButtonLabel;
-            sessionStorage.setItem(window.location.href, JSON.stringify(tabStorage));
-        }
+                tabStorage[tabBlockIndex] = activeButtonLabel;
+                sessionStorage.setItem(window.location.href, JSON.stringify(tabStorage));
+            }
 
-        if (settings.sync && !isSync) {
-            const tabButtonMatches = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabButton}[data-tab="${activeButtonLabel}"]`)) : [];
+            if (settings.sync) {
+                const tabButtonMatches = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabButton}[data-tab="${activeButtonLabel}"]`)) : [];
+                const tabStorage       = JSON.parse(sessionStorage.getItem('*')) || [];
 
-            tabButtonMatches.forEach(tabButtonMatch => {
-                setActiveTab(tabButtonMatch, true);
-            });
+                tabButtonMatches.forEach(tabButtonMatch => {
+                    setActiveTab(tabButtonMatch, true);
+                });
 
-            // Maintain position in viewport when tab group's offset changes
-            window.scrollBy(0, 0 - (tabBlockOffset - tabBlock.offsetTop));
+                // Maintain position in viewport when tab group's offset changes
+                window.scrollBy(0, 0 - (tabBlockOffset - tabBlock.offsetTop));
+
+                // Remove existing label if not first in array
+                if (tabStorage.indexOf(activeButtonLabel) > 0) {
+                    tabStorage.splice(tabStorage.indexOf(activeButtonLabel), 1);
+                }
+
+                // Add label if not already in first position
+                if (tabStorage.indexOf(activeButtonLabel) !== 0) {
+                    tabStorage.unshift(activeButtonLabel);
+                    sessionStorage.setItem('*', JSON.stringify(tabStorage));
+                }
+            }
         }
     }
 }
