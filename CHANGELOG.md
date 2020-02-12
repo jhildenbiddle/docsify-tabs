@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.2.0
+
+*2020-02-11*
+
+- Update sync behavior to allow synced tab selections across pages (#17)
+- Fix rendering of tabset when using tab comments (#16)
+- Remove Sentry.io
+
 ## 1.1.2
 
 *2019-01-08*
