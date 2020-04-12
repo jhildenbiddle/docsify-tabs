@@ -39,6 +39,15 @@
     height: 0;
     width: 100%;
 
+    :first-child {
+        margin-top: 0;
+    }
+
+    :last-child,
+    :first-child ~ :last-child { // Add weight instead of !important
+        margin-bottom: 0;
+    }
+
     .docsify-tabs__tab--active + & {
         visibility: visible;
         position: relative;

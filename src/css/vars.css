@@ -16,5 +16,5 @@
 
     /* Tab content */
     --docsifytabs-content-background    : inherit;
-    --docsifytabs-content-padding       : 0.5rem 1.75rem;
+    --docsifytabs-content-padding       : 1.5rem;
 }
