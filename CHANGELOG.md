@@ -1,10 +1,17 @@
 # Change Log
 
+## 1.4.0
+
+*2020-04-12*
+
+- Added tab selection on hash change
+- Fixed tab selection based on anchor ID in IE
+
 ## 1.3.0
 
 *2020-04-11*
 
-- Added auto-selection of tab containing element with matching ID in URL (#20)
+- Added tab selection based on anchor ID in URL (#20)
 - Fixed tab content container padding and first/last child margins
 
 ## 1.2.0
