@@ -144,30 +144,58 @@ function renderTabsStage2(html) {
 }
 
 /**
- * Sets the initial active tab for each tab group: either the first tab in the
- * group or the last tab clicked (if persist option is enabled).
+ * Sets the initial active tab for each tab group: the tab containing the
+ * matching element ID from the URL, the first tab in the group, or the last tab
+ * clicked (if persist option is enabled).
  */
 function setDefaultTabs() {
+    const urlID             = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
+    const urlIDIsInTabBlock = urlID && document.querySelector(`.${classNames.tabBlock} #${urlID}`);
     const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
     const tabBlocks         = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
     const tabStoragePersist = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
     const tabStorageSync    = JSON.parse(sessionStorage.getItem('*')) || [];
 
-    tabBlocks.forEach((tabBlock, index) => {
+    // Set active tab if urlID element is a child of a tabBlock
+    if (urlIDIsInTabBlock) {
+        const urlElm = urlID ? document.querySelector(`#${urlID}`) : null;
+
+        let tabContent;
         let activeButton;
 
-        if (settings.sync && tabStorageSync.length) {
-            activeButton = tabStorageSync
-                .map(label => tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${label}"]`))
-                .filter(elm => elm)[0];
+        if (urlElm.closest) {
+            tabContent = urlElm.closest(`.${classNames.tabContent}`);
+            activeButton = tabContent.previousElementSibling;
+        }
+        else {
+            tabContent = urlElm.parentNode;
+
+            while (tabContent !== tabsContainer && !tabContent.classList.contains(`${classNames.tabContent}`)) {
+                tabContent = tabContent.parentNode;
+                activeButton = tabContent.previousElementSibling;
+            }
         }
 
-        if (!activeButton && settings.persist) {
-            activeButton = tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`);
-        }
-
-        activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
         activeButton && activeButton.classList.add(classNames.tabButtonActive);
+    }
+
+    tabBlocks.forEach((tabBlock, index) => {
+        let activeButton = tabBlock.querySelector(`.${classNames.tabButtonActive}`);
+
+        if (!activeButton) {
+            if (settings.sync && tabStorageSync.length) {
+                activeButton = tabStorageSync
+                    .map(label => tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${label}"]`))
+                    .filter(elm => elm)[0];
+            }
+
+            if (!activeButton && settings.persist) {
+                activeButton = tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`);
+            }
+
+            activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
+            activeButton && activeButton.classList.add(classNames.tabButtonActive);
+        }
     });
 }
 
@@ -231,7 +259,7 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
 // Plugin
 // =============================================================================
 function docsifyTabs(hook, vm) {
-    let hasTabs =false;
+    let hasTabs = false;
 
     hook.beforeEach(function(content) {
         hasTabs = regex.tabBlockMarkup.test(content);

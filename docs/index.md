@@ -30,7 +30,9 @@ function add(a, b) {
 
 #### **Tab B**
 
-This is some more text.
+### This is a heading
+
+This is some text.
 
 * List item B-1
 * List item B-2
@@ -45,7 +47,9 @@ body {
 
 #### **Tab C**
 
-This is some more text.
+### This is a heading
+
+This is some text.
 
 * List item C-1
 * List item C-2
