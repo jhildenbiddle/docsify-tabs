@@ -46,18 +46,13 @@ label[data-class-target="label + .docsify-tabs"] {
     color: white;
 }
 
-/* JSBin */
-[data-tab-content="jsbin"] {
-    padding: 0 !important;
-}
-[data-tab-content="jsbin"] > * {
-    margin: 0 !important;
-}
-[data-tab-content="jsbin"] iframe {
-    display: block;
-    min-height: 350px;
-    margin: 0;
-    border: 0 !important;
+/* CodePen */
+[data-tab-content="codepen"] .cp_embed_wrapper {
+    position: relative;
+    top: calc(0px - var(--docsifytabs-content-padding));
+    left: calc(0px - var(--docsifytabs-content-padding));
+    width: calc(100% + calc(var(--docsifytabs-content-padding) * 2));
+    margin-bottom: calc(0px - var(--docsifytabs-content-padding));
 }
 
 /* Badge */

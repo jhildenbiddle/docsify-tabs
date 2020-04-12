@@ -501,30 +501,26 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
 }
 ```
 
-#### **JSBin**
+#### **CodePen**
 
-<a class="jsbin-embed" href="https://jsbin.com/iwovaj/74/embed?js,output&height=350px">Demo: Simple Animation Tests</a>
-<script src="https://static.jsbin.com/js/embed.js"></script>
+<div class="codepen" data-height="400" data-theme-id="light" data-default-tab="html,result" data-user="jhildenbiddle" data-slug-hash="wGjZLj" style="height: 400px; height: 70vh; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 0; " data-pen-title="Demo: Vertical Rhythm Reset (CSS/SCSS)"></div>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
 **Tab Markdown**
 
 ```markdown
-#### **JSBin**
+#### **CodePen**
 ```
 
 **Custom CSS**
 
 ```css
-[data-tab-content="jsbin"] {
-  padding: 0 !important;
-}
-[data-tab-content="jsbin"] * {
-  margin: 0 !important;
-}
-[data-tab-content="jsbin"] iframe {
-  display: block;
-  min-height: 350px;
-  border: 0 !important;
+[data-tab-content="codepen"] .cp_embed_wrapper {
+  position: relative;
+  top: calc(0px - var(--docsifytabs-content-padding));
+  left: calc(0px - var(--docsifytabs-content-padding));
+  width: calc(100% + calc(var(--docsifytabs-content-padding) * 2));
+  margin-bottom: calc(0px - var(--docsifytabs-content-padding));
 }
 ```
 
