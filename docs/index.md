@@ -30,7 +30,7 @@ function add(a, b) {
 
 #### **Tab B**
 
-### This is a heading
+### This is a heading {docsify-ignore}
 
 This is some text.
 
@@ -47,7 +47,7 @@ body {
 
 #### **Tab C**
 
-### This is a heading
+### This is a heading {docsify-ignore}
 
 This is some text.
 

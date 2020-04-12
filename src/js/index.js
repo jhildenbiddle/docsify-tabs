@@ -149,35 +149,12 @@ function renderTabsStage2(html) {
  * clicked (if persist option is enabled).
  */
 function setDefaultTabs() {
-    const urlID             = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
-    const urlIDIsInTabBlock = urlID && document.querySelector(`.${classNames.tabBlock} #${urlID}`);
     const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
     const tabBlocks         = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
     const tabStoragePersist = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
     const tabStorageSync    = JSON.parse(sessionStorage.getItem('*')) || [];
 
-    // Set active tab if urlID element is a child of a tabBlock
-    if (urlIDIsInTabBlock) {
-        const urlElm = urlID ? document.querySelector(`#${urlID}`) : null;
-
-        let tabContent;
-        let activeButton;
-
-        if (urlElm.closest) {
-            tabContent = urlElm.closest(`.${classNames.tabContent}`);
-            activeButton = tabContent.previousElementSibling;
-        }
-        else {
-            tabContent = urlElm.parentNode;
-
-            while (tabContent !== tabsContainer && !tabContent.classList.contains(`${classNames.tabContent}`)) {
-                tabContent = tabContent.parentNode;
-                activeButton = tabContent.previousElementSibling;
-            }
-        }
-
-        activeButton && activeButton.classList.add(classNames.tabButtonActive);
-    }
+    setActiveTabFromAnchor();
 
     tabBlocks.forEach((tabBlock, index) => {
         let activeButton = tabBlock.querySelector(`.${classNames.tabButtonActive}`);
@@ -255,6 +232,37 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
     }
 }
 
+/**
+ * Sets the active tab based on the anchor ID in the URL
+ */
+function setActiveTabFromAnchor() {
+    const urlID             = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
+    const urlIDIsInTabBlock = urlID && document.querySelector(`.${classNames.tabBlock} #${urlID}`);
+
+    // Set active tab if urlID element is a child of a tabBlock
+    if (urlIDIsInTabBlock) {
+        const urlElm = urlID ? document.querySelector(`#${urlID}`) : null;
+
+        let tabContent;
+        let activeButton;
+
+        if (urlElm.closest) {
+            tabContent = urlElm.closest(`.${classNames.tabContent}`);
+            activeButton = tabContent.previousElementSibling;
+        }
+        else {
+            tabContent = urlElm.parentNode;
+
+            while (tabContent !== document.body && !tabContent.classList.contains(`${classNames.tabContent}`)) {
+                tabContent = tabContent.parentNode;
+                activeButton = tabContent.previousElementSibling;
+            }
+        }
+
+        setActiveTab(activeButton);
+    }
+}
+
 
 // Plugin
 // =============================================================================
@@ -291,6 +299,8 @@ function docsifyTabs(hook, vm) {
         tabsContainer && tabsContainer.addEventListener('click', function(evt) {
             setActiveTab(evt.target);
         });
+
+        window.addEventListener('hashchange', setActiveTabFromAnchor, false);
     });
 }
 
