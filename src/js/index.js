@@ -236,30 +236,26 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
  * Sets the active tab based on the anchor ID in the URL
  */
 function setActiveTabFromAnchor() {
-    const urlID             = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
-    const urlIDIsInTabBlock = urlID && document.querySelector(`.${classNames.tabBlock} #${urlID}`);
+    const anchorID             = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
+    const isAnchorElmInTabBlock = anchorID && document.querySelector(`.${classNames.tabBlock} #${anchorID}`);
 
-    // Set active tab if urlID element is a child of a tabBlock
-    if (urlIDIsInTabBlock) {
-        const urlElm = urlID ? document.querySelector(`#${urlID}`) : null;
+    if (isAnchorElmInTabBlock) {
+        const anchorElm = document.querySelector(`#${anchorID}`);
 
         let tabContent;
-        let activeButton;
 
-        if (urlElm.closest) {
-            tabContent = urlElm.closest(`.${classNames.tabContent}`);
-            activeButton = tabContent.previousElementSibling;
+        if (anchorElm.closest) {
+            tabContent = anchorElm.closest(`.${classNames.tabContent}`);
         }
         else {
-            tabContent = urlElm.parentNode;
+            tabContent = anchorElm.parentNode;
 
             while (tabContent !== document.body && !tabContent.classList.contains(`${classNames.tabContent}`)) {
                 tabContent = tabContent.parentNode;
-                activeButton = tabContent.previousElementSibling;
             }
         }
 
-        setActiveTab(activeButton);
+        setActiveTab(tabContent.previousElementSibling);
     }
 }
 
