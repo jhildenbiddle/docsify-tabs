@@ -1,22 +1,29 @@
 # Change Log
 
+## 1.3.0
+
+*2020-04-11*
+
+- Added auto-selection of tab containing element with matching ID in URL (#20)
+- Fixed tab content container padding and first/last child margins
+
 ## 1.2.0
 
 *2020-02-11*
 
-- Update sync behavior to allow synced tab selections across pages (#17)
-- Fix rendering of tabset when using tab comments (#16)
-- Remove Sentry.io
+- Updated sync behavior to allow synced tab selections across pages (#17)
+- Fixed rendering of tabset when using tab comments (#16)
+- Removed Sentry.io
 
 ## 1.1.2
 
 *2019-01-08*
 
-- Add Sentry.io
-- Update dependencies
-- Update CDN links (switch from unpkg to jsdelivr)
-- Fix rollup plugin configuration
-- Fix website landscape display on notched devices
+- Added Sentry.io
+- Updated dependencies
+- Updated CDN links (switch from unpkg to jsdelivr)
+- Fixed rollup plugin configuration
+- Fixed website landscape display on notched devices
 
 ## 1.1.0
 
