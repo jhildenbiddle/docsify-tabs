@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.1
+
+*2020-05-09*
+
+- Fixed handling of URL encoded anchor IDs (#22)
+
 ## 1.4.0
 
 *2020-04-12*
