@@ -237,7 +237,7 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
  */
 function setActiveTabFromAnchor() {
     const anchorID              = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
-    const anchorSelector        = `.${classNames.tabBlock} #${anchorID.indexOf('%') > -1 ? decodeURIComponent(anchorID) : anchorID}`;
+    const anchorSelector        = anchorID && `.${classNames.tabBlock} #${anchorID.indexOf('%') > -1 ? decodeURIComponent(anchorID) : anchorID}`;
     const isAnchorElmInTabBlock = anchorID && document.querySelector(anchorSelector);
 
     if (isAnchorElmInTabBlock) {
