@@ -236,7 +236,8 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
  * Sets the active tab based on the anchor ID in the URL
  */
 function setActiveTabFromAnchor() {
-    const anchorID              = (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1];
+    const match                 = window.location.hash.match(/(?:id=)([^&]+)/);
+    const anchorID              = anchorID = (match ? match[1] : "");
     const anchorSelector        = `.${classNames.tabBlock} #${anchorID.indexOf('%') > -1 ? decodeURIComponent(anchorID) : anchorID}`;
     const isAnchorElmInTabBlock = anchorID && document.querySelector(anchorSelector);
 
