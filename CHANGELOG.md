@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.2
+
+*2020-05-11*
+
+- Fix error when no active tab set in URL (#23)
+
 ## 1.4.1
 
 *2020-05-09*
