@@ -71,7 +71,7 @@ function renderTabsStage1(content) {
         // Replace code block with marker to ensure tab markup within code
         // blocks is not processed. These markers are replaced with their
         // associated code blocs after tabs have been processed.
-        content = content.replace(item, codeMarker);
+        content = content.replace(item, () => codeMarker);
 
         return codeMarker;
     });
@@ -101,7 +101,9 @@ function renderTabsStage1(content) {
                 const tabTitle   = (tabMatch[2] || '[Tab]').trim();
                 const tabContent = (tabMatch[3] || '').trim();
 
-                tabBlock = tabBlock.replace(tabMatch[0], [
+                // Use replace function to avoid regex special replacement
+                // strings being processed ($$, $&, $`, $', $n)
+                tabBlock = tabBlock.replace(tabMatch[0], () => [
                     `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button> -->`,
                     `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
                     `\n\n${tabBlockIndent}${tabContent}`,
@@ -110,14 +112,14 @@ function renderTabsStage1(content) {
             }
         }
 
-        tabBlock = tabBlock.replace(tabBlockStart, tabStartReplacement);
-        tabBlock = tabBlock.replace(tabBlockEnd, tabEndReplacement);
-        content = content.replace(tabBlockMatch[0], tabBlock);
+        tabBlock = tabBlock.replace(tabBlockStart, () => tabStartReplacement);
+        tabBlock = tabBlock.replace(tabBlockEnd, () => tabEndReplacement);
+        content = content.replace(tabBlockMatch[0], () => tabBlock);
     }
 
     // Restore code blocks
     codeBlockMarkers.forEach((item, i) => {
-        content = content.replace(item, codeBlockMatch[i]);
+        content = content.replace(item, () => codeBlockMatch[i]);
     });
 
     return content;
@@ -137,7 +139,7 @@ function renderTabsStage2(html) {
         const tabComment     = tabReplaceMatch[0];
         const tabReplacement = tabReplaceMatch[1] || '';
 
-        html = html.replace(tabComment, tabReplacement);
+        html = html.replace(tabComment, () => tabReplacement);
     }
 
     return html;
