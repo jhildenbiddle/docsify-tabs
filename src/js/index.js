@@ -36,7 +36,7 @@ const regex = {
     // 0: Match
     // 1: Label: <!-- tab:Label -->
     // 2: Content
-    tabCommentMarkup: /[\r\n]*(\s*)<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+tabs?:)/m,
+    tabCommentMarkup: /[\r\n]*(\s*)<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+tabs?:(?!replace))/m,
 
     // Matches tab label and content
     // 0: Match
