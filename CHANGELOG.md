@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.4
+
+*2020-11-05*
+
+- Fix tab comments with code block rendering (#29)
+
 ## 1.4.3
 
 *2020-06-25*
