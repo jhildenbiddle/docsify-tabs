@@ -1,6 +1,6 @@
 - [Documentation](/)
 - [Changelog](changelog)
 - **Links**
-- [![Github](https://icongram.jgog.in/simple/github.svg?color=808080&size=16)Github](https://github.com/jhildenbiddle/docsify-tabs)
-- [![NPM](https://icongram.jgog.in/simple/npm.svg?colored&size=16)NPM](https://www.npmjs.com/package/docsify-tabs)
-- [![Twitter](https://icongram.jgog.in/simple/twitter.svg?colored&size=16)@jhildenbiddle](http://twitter.com/jhildenbiddle)
+- [![Github](assets/img/github.svg)Github](https://github.com/jhildenbiddle/docsify-tabs)
+- [![NPM](assets/img/npm.svg)NPM](https://www.npmjs.com/package/docsify-tabs)
+- [![Twitter](assets/img/twitter.svg)@jhildenbiddle](http://twitter.com/jhildenbiddle)
