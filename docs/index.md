@@ -120,7 +120,7 @@ This is some text.
 
 1. Define a tab set using `tabs:start` and `tabs:end` HTML comments.
 
-   HTML comments are used to mark the start and end of a tab set. The use of HTML comments prevents tab-related markup from being displayed when markdown is rendered as HTML outside of your docsify site (e.g. Github, GitLab, etc).
+   HTML comments are used to mark the start and end of a tab set. The use of HTML comments prevents tab-related markup from being displayed when markdown is rendered as HTML outside of your docsify site (e.g. GitHub, GitLab, etc).
 
    ```markdown
    <!-- tabs:start -->
@@ -355,7 +355,7 @@ Ciao!
 
 Determines if tabs within a tab set can be defined using heading + bold markdown.
 
-The use of heading + bold markdown allows tabs to be defined using standard markdown and ensures that tab content is displayed with a heading when rendered outside of your docsify site (e.g. GitHub, GitLab, etc). Heading levels 1-6 are supported (e.g. `#` - `######`) as are both asteriscks (`**`) and underscores (`__`) for bold text via markdown.
+The use of heading + bold markdown allows tabs to be defined using standard markdown and ensures that tab content is displayed with a heading when rendered outside of your docsify site (e.g. GitHub, GitLab, etc). Heading levels 1-6 are supported (e.g. `#` - `######`) as are both asterisks (`**`) and underscores (`__`) for bold text via markdown.
 
 **Configuration**
 
