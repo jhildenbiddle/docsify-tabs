@@ -24,7 +24,10 @@ browserSync.init({
         ],
         middleware: [
             compression()
-        ]
+        ],
+        routes: {
+            '/CHANGELOG.md': './CHANGELOG.md'
+        }
     },
     serveStatic: [
         './dist/'
@@ -32,11 +35,11 @@ browserSync.init({
     rewriteRules: [
         // Replace CDN URLs with local paths
         {
-            match  : /https:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1\/dist\//g,
-            replace: '/'
+            match  : /https?.*\/CHANGELOG.md/g,
+            replace: '/CHANGELOG.md'
         },
         {
-            match  : /https:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1/g,
+            match  : /https?:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1/g,
             replace: '/docsify-tabs.min.js'
         }
     ]
