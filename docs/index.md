@@ -137,22 +137,22 @@ This is some text.
    ```markdown
    <!-- tabs:start -->
 
-   #### ** English **
+   #### **English**
 
    Hello!
 
-   #### ** French **
+   #### **French**
 
    Bonjour!
 
-   #### ** Italian **
+   #### **Italian**
 
    Ciao!
 
    <!-- tabs:end -->
    ```
 
-   See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs within tab sets.
+   See [`options.tabHeadings`](#tabheadings) for details or [`options.tabComments`](#tabcomments) for an alternate method of defining tabs using HTML comments.
 
 1. Voilà! A tab set is formed.
 
@@ -373,15 +373,15 @@ window.$docsify = {
 ```markdown
 <!-- tabs:start -->
 
-#### ** English **
+#### **English**
 
 Hello!
 
-#### ** French **
+#### **French**
 
 Bonjour!
 
-#### ** Italian **
+#### **Italian**
 
 Ciao!
 
