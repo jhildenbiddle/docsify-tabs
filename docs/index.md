@@ -70,13 +70,13 @@ This is some text.
 * Persist tab selections on refresh/revisit
 * Sync tab selection for tabs with matching labels
 * Style tabs using "classic" or "material" tab theme
-* Customize styles using CSS custom properties
+* Customize styles without complex CSS using CSS custom properties
 * Compatible with [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable/) themes
 
 **Limitations**
 
-* Nested tabsets (i.e. tabs within tabs) are not supported.
-* Tabs wraps when their combined width exceeds the content area width.
+* Nested tabsets (i.e. tabs within tabs) are not supported
+* Tabs wraps when their combined width exceeds the content area width
 
 ## Installation
 
@@ -413,76 +413,146 @@ To set theme properties, add a `<style>` element to your `index.html` file after
 
 ### Custom Styles
 
-Custom tab styles can be created using docsify-tabs CSS classes and `data-tab` attributes.
-
-Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, toggles, and content containers. Use `data-tab` attributes to apply styles to specific tabs and/or content based on the tab label.
-
-```html
-<div class="docsify-tabs docsify-tabs--classic">
-  /* Tab A */
-  <button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="tab a">Tab A</button>
-  <div class="docsify-tabs__content" data-tab-content="tab a">
-    ...
-  </div>
-
-  /* Tab B */
-  <button class="docsify-tabs__tab" data-tab="tab b">Tab B</button>
-  <div class="docsify-tabs__content" data-tab-content="tab b">
-    ...
-  </div>
-</div>
-```
-
-**Examples**
+The easiest way to create custom tab styles is by using markdown and/or HTML in your tab label.
 
 <!-- tabs:start -->
 
-#### **Icon Only**
+#### ** **Bold** **
 
 **Tab Markdown**
 
 ```markdown
-#### **Icon Only**
+<!-- tabs:start -->
+
+#### ** **Bold** **
+
+...
+
+<!-- tabs:end -->
 ```
 
-**Custom CSS**
-
-```css
-.docsify-tabs__tab[data-tab="icon only"] {
-  letter-spacing: -100vw;
-  color: transparent;
-}
-.docsify-tabs__tab[data-tab="icon only"]:before {
-  content: url(path/to/image.png);
-  vertical-align: middle;
-}
-```
-
-#### **Icon + Label**
+#### ** <em>Italic</em> **
 
 **Tab Markdown**
 
 ```markdown
-#### **Icon + Label**
+<!-- tabs:start -->
+
+#### ** <em>Italic</em> **
+
+...
+
+<!-- tabs:end -->
 ```
 
-**Custom CSS**
+#### ** <span style="color: red;">Red</span> **
 
-```css
-[data-tab="icon + label"]:before {
-  content: url(path/to/image.png);
-  height: 16px;
-  margin-right: 0.5em;
-  vertical-align: middle;
-}
+**Tab Markdown**
+
+```markdown
+<!-- tabs:start -->
+
+#### ** <span style="color: red;">Red</span> **
+
+...
+
+<!-- tabs:end -->
+```
+
+#### ** :smile: **
+
+**Tab Markdown**
+
+```markdown
+<!-- tabs:start -->
+
+#### ** :smile: **
+
+...
+
+<!-- tabs:end -->
+```
+
+#### ** 😀 **
+
+**Tab Markdown**
+
+```markdown
+<!-- tabs:start -->
+
+#### ** 😀 **
+
+...
+
+<!-- tabs:end -->
+```
+
+#### ** Badge <span class="tab-badge">New!</span> **
+
+**Tab Markdown**
+
+```markdown
+<!-- tabs:start -->
+
+#### ** Badge <span class="tab-badge">New!</span> **
+
+...
+
+<!-- tabs:end -->
+```
+
+#### CSS
+
+```html
+<style>
+  .tab-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(35%, -45%);
+    padding: 0.25em 0.35em;
+    border-radius: 3px;
+    background: red;
+    color: white;
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+  }
+</style>
+```
+
+<!-- tabs:end -->
+
+More advanced styling can be applied by leveraging the CSS class names and data attributes associated with tab containers, toggles, labels, and content blocks.
+
+<!-- tabs:start -->
+
+#### **Basic Tab**
+
+**HTML**
+
+```html
+<button class="docsify-tabs__tab" data-tab="basic tab">Basic Tab</button>
+<div class="docsify-tabs__content" data-tab-content="basic tab">
+  ...
+</div>
+```
+
+When the tab is active, note the addition of the `docsify-tabs__tab--active` class:
+
+```html
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="basic tab">Basic Tab</button>
 ```
 
 #### **Active State**
 
-**Tab Markdown**
+**HTML**
 
-```markdown
-#### **Active State**
+```html
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="active state">Active State</button>
+<div class="docsify-tabs__content" data-tab-content="active state">
+  ...
+</div>
 ```
 
 **Custom CSS**
@@ -506,10 +576,13 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
 <div class="codepen" data-height="400" data-theme-id="light" data-default-tab="html,result" data-user="jhildenbiddle" data-slug-hash="wGjZLj" style="height: 400px; height: 70vh; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 0; " data-pen-title="Demo: Vertical Rhythm Reset (CSS/SCSS)"></div>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-**Tab Markdown**
+**HTML**
 
-```markdown
-#### **CodePen**
+```html
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="codepen">CodePen</button>
+<div class="docsify-tabs__content" data-tab-content="codepen">
+  ...
+</div>
 ```
 
 **Custom CSS**
@@ -540,17 +613,14 @@ Use the `docsify-tabs` CSS classes to apply common tab styles to tab blocks, tog
   position: absolute;
   top: 0;
   right: 0;
-  min-height: 1em;
-  min-width: 1em;
-  padding: 0.325em 0.5em 0.3em 0.5em;
+  transform: translate(35%, -45%);
+  padding: 0.25em 0.35em;
   border-radius: 3px;
   background: red;
-  color: #fff;
+  color: white;
   font-family: sans-serif;
-  font-weight: bold;
   font-size: 11px;
-  line-height: 1;
-  transform: translate(35%, -45%);
+  font-weight: bold;
 }
 ```
 

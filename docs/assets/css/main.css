@@ -15,22 +15,24 @@ label[data-class-target="label + .docsify-tabs"] {
 
 /* Custom Styles */
 /* ========================================================================== */
-/* Icon Only */
-.docsify-tabs__tab[data-tab="icon only"] {
-    letter-spacing: -100vw;
-    color: transparent;
-}
-.docsify-tabs__tab[data-tab="icon only"]:before {
-    content: url(https://icongr.am/feather/image.svg?size=18&color=999999);
-    vertical-align: middle;
+/* Badges */
+.tab-badge,
+[data-tab="badge"]:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(35%, -45%);
+    padding: 0.25em 0.35em;
+    border-radius: 3px;
+    background: red;
+    color: white;
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: bold;
 }
 
-/* Icon + Label */
-[data-tab="icon + label"]:before {
-    content: url(https://icongr.am/feather/image.svg?size=18&color=999999);
-    height: 16px;
-    margin-right: 0.5em;
-    vertical-align: middle;
+[data-tab="badge"]:after {
+    content: 'New!';
 }
 
 /* Active State */
@@ -53,23 +55,4 @@ label[data-class-target="label + .docsify-tabs"] {
     left: calc(0px - var(--docsifytabs-content-padding));
     width: calc(100% + calc(var(--docsifytabs-content-padding) * 2));
     margin-bottom: calc(0px - var(--docsifytabs-content-padding));
-}
-
-/* Badge */
-[data-tab="badge"]:after {
-    content: 'New!';
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-height: 1em;
-    min-width: 1em;
-    padding: 0.325em 0.5em 0.3em 0.5em;
-    border-radius: 3px;
-    background: red;
-    color: #fff;
-    font-family: sans-serif;
-    font-weight: bold;
-    font-size: 11px;
-    line-height: 1;
-    transform: translate(35%, -45%);
 }
