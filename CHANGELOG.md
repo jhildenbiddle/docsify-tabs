@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.0
+
+*2021-04-27*
+
+- Add support for markdown and HTML in tab labels (#38)
+- Update custom style examples in documentation
+
 ## 1.4.4
 
 *2020-11-05*
