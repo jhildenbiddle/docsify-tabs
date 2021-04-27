@@ -56,6 +56,47 @@ const settings = {
 // Functions
 // =============================================================================
 /**
+ * Traverses the element and its parents until it finds a node that matches the
+ * provided selector string. Will return itself or the matching ancestor.
+ *
+ * @param {object} elm
+ * @param {string} closestSelectorString
+ * @return {(object|null)}
+ */
+function getClosest(elm, closestSelectorString) {
+    if (Element.prototype.closest) {
+        return elm.closest(closestSelectorString);
+    }
+
+    while (elm) {
+        const isMatch = matchSelector(elm, closestSelectorString);
+
+        if (isMatch) {
+            return elm;
+        }
+
+        elm = elm.parentNode || null;
+    }
+
+    return elm;
+}
+
+/**
+ * Checks to see if the element would be selected by the provided selectorString
+ *
+ * @param {object} elm
+ * @param {string} selectorString
+ * @return {boolean}
+ */
+function matchSelector(elm, selectorString) {
+    const matches = Element.prototype.matches ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.webkitMatchesSelector;
+
+    return matches.call(elm, selectorString);
+}
+
+/**
  * Converts tab content into "stage 1" markup. Stage 1 markup contains temporary
  * comments which are replaced with HTML during Stage 2. This approach allows
  * all markdown to be converted to HTML before tab-specific HTML is added.
@@ -63,7 +104,7 @@ const settings = {
  * @param {string} content
  * @returns {string}
  */
-function renderTabsStage1(content) {
+function renderTabsStage1(content, vm) {
     const codeBlockMatch   = content.match(regex.codeMarkup) || [];
     const codeBlockMarkers = codeBlockMatch.map((item, i) => {
         const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
@@ -76,7 +117,9 @@ function renderTabsStage1(content) {
         return codeMarker;
     });
     const tabTheme = settings.theme ? `${classNames.tabBlock}--${settings.theme}` : '';
+    const tempElm  = document.createElement('div');
 
+    let tabIndex = 1;
     let tabBlockMatch; // eslint-disable-line no-unused-vars
     let tabMatch; // eslint-disable-line no-unused-vars
 
@@ -98,17 +141,27 @@ function renderTabsStage1(content) {
 
             // Process each tab panel
             while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlock) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlock) : null)) !== null) {
-                const tabTitle   = (tabMatch[2] || '[Tab]').trim();
+                // Process tab title as markdown
+                // Ex: <!-- tab:**Bold** and <span style="color: red;">red</span> -->
+                tempElm.innerHTML = tabMatch[2].trim() ? vm.compiler.compile(tabMatch[2]).replace(/<\/?p>/g, '') : `Tab ${tabIndex}`;
+
+                const tabTitle = tempElm.innerHTML;
                 const tabContent = (tabMatch[3] || '').trim();
+                const tabData = (
+                    tempElm.textContent ||
+                    (tempElm.firstChild.getAttribute('alt') || tempElm.firstChild.getAttribute('src'))
+                ).trim().toLowerCase();
 
                 // Use replace function to avoid regex special replacement
                 // strings being processed ($$, $&, $`, $', $n)
                 tabBlock = tabBlock.replace(tabMatch[0], () => [
-                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabTitle.toLowerCase()}">${tabTitle}</button> -->`,
-                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabTitle.toLowerCase()}"> -->`,
+                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabData}">${tabTitle}</button> -->`,
+                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabData}"> -->`,
                     `\n\n${tabBlockIndent}${tabContent}`,
                     `\n\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`,
                 ].join(''));
+
+                tabIndex++;
             }
         }
 
@@ -185,10 +238,9 @@ function setDefaultTabs() {
  * @param {object} elm Tab toggle element to mark as active
  */
 function setActiveTab(elm, _isMatchingTabSync = false) {
-    const isTabButton = elm.classList.contains(classNames.tabButton);
+    const activeButton = getClosest(elm, `.${classNames.tabButton}`);
 
-    if (isTabButton) {
-        const activeButton      = elm;
+    if (activeButton) {
         const activeButtonLabel = activeButton.getAttribute('data-tab');
         const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
         const tabBlock          = activeButton.parentNode;
@@ -272,7 +324,7 @@ function docsifyTabs(hook, vm) {
         hasTabs = regex.tabBlockMarkup.test(content);
 
         if (hasTabs) {
-            content = renderTabsStage1(content);
+            content = renderTabsStage1(content, vm);
         }
 
         return content;
@@ -295,7 +347,7 @@ function docsifyTabs(hook, vm) {
     hook.mounted(function() {
         const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
 
-        tabsContainer && tabsContainer.addEventListener('click', function(evt) {
+        tabsContainer && tabsContainer.addEventListener('click', function handleTabClick(evt) {
             setActiveTab(evt.target);
         });
 
