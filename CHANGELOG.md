@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.5.1
+
+*2021-09-02*
+
+- Fix setting active tab from anchor with unicode (#41)
+
 ## 1.5.0
 
 *2021-04-27*
