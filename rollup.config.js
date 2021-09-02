@@ -2,7 +2,7 @@
 // =============================================================================
 const path = require('path');
 
-import babel           from 'rollup-plugin-babel';
+import { babel }       from '@rollup/plugin-babel';
 import commonjs        from '@rollup/plugin-commonjs';
 import { eslint }      from 'rollup-plugin-eslint';
 import json            from '@rollup/plugin-json';
@@ -40,15 +40,8 @@ const pluginSettings = {
         throwOnError  : true
     },
     babel: {
-        exclude: ['node_modules/**'],
-        presets: [
-            ['@babel/env', {
-                modules: false,
-                targets: {
-                    browsers: ['ie >= 10']
-                }
-            }]
-        ]
+        // See .babelrc
+        babelHelpers: 'bundled'
     },
     postcss: {
         inject: {
