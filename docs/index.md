@@ -19,8 +19,8 @@ A basic tab set using the default [options](#options).
 
 This is some text.
 
-* List item A-1
-* List item A-2
+- List item A-1
+- List item A-2
 
 ```js
 // JavaScript
@@ -31,12 +31,12 @@ function add(a, b) {
 
 #### **Tab B**
 
-### This is a heading {docsify-ignore}
+### Heading for Tab B {docsify-ignore}
 
 This is some text.
 
-* List item B-1
-* List item B-2
+- List item B-1
+- List item B-2
 
 ```css
 /* CSS */
@@ -48,12 +48,12 @@ body {
 
 #### **Tab C**
 
-### This is a heading {docsify-ignore}
+### Heading for Tab C {docsify-ignore}
 
 This is some text.
 
-* List item C-1
-* List item C-2
+- List item C-1
+- List item C-2
 
 ```html
 <!-- HTML -->
@@ -67,17 +67,17 @@ This is some text.
 
 ## Features
 
-* Generate tabbed content using unobtrusive markup
-* Persist tab selections on refresh/revisit
-* Sync tab selection for tabs with matching labels
-* Style tabs using "classic" or "material" tab theme
-* Customize styles without complex CSS using CSS custom properties
-* Compatible with [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable/) themes
+- Generate tabbed content using unobtrusive markup
+- Persist tab selections on refresh/revisit
+- Sync tab selection for tabs with matching labels
+- Style tabs using "classic" or "material" tab theme
+- Customize styles without complex CSS using CSS custom properties
+- Compatible with [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable/) themes
 
 **Limitations**
 
-* Nested tabsets (i.e. tabs within tabs) are not supported
-* Tabs wraps when their combined width exceeds the content area width
+- Nested tabsets (i.e. tabs within tabs) are not supported
+- Tabs wraps when their combined width exceeds the content area width
 
 ## Installation
 
@@ -194,8 +194,8 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
 
 ### persist
 
-* Type: `boolean`
-* Default: `true`
+- Type: `boolean`
+- Default: `true`
 
 Determines if tab selections will be restored after a page refresh/revisit.
 
@@ -212,8 +212,8 @@ window.$docsify = {
 
 ### sync
 
-* Type: `boolean`
-* Default: `true`
+- Type: `boolean`
+- Default: `true`
 
 Determines if tab selections will be synced across tabs with matching labels.
 
@@ -264,9 +264,9 @@ More instructions for Linux...
 
 ### theme
 
-* Type: `string|boolean`
-* Accepts: `'classic'`, `'material'`, `false`
-* Default: `'classic'`
+- Type: `string|boolean`
+- Accepts: `'classic'`, `'material'`, `false`
+- Default: `'classic'`
 
 Sets the tab theme. A value of `false` will indicate that no theme should be applied, which should be used when creating custom tab themes.
 
@@ -311,8 +311,8 @@ Yes, this is even more text.
 
 ### tabComments
 
-* Type: `boolean`
-* Default: `true`
+- Type: `boolean`
+- Default: `true`
 
 Determines if tabs within a tab set can be defined using tab comments.
 
@@ -351,8 +351,8 @@ Ciao!
 
 ### tabHeadings
 
-* Type: `boolean`
-* Default: `true`
+- Type: `boolean`
+- Default: `true`
 
 Determines if tabs within a tab set can be defined using heading + bold markdown.
 
@@ -418,84 +418,84 @@ The easiest way to create custom tab styles is by using markdown and/or HTML in 
 
 <!-- tabs:start -->
 
-#### ** **Bold** **
+#### ****Bold****
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** **Bold** **
+#### ****Bold****
 
 ...
 
 <!-- tabs:end -->
 ```
 
-#### ** <em>Italic</em> **
+#### **<em>Italic</em>**
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** <em>Italic</em> **
+#### **<em>Italic</em>**
 
 ...
 
 <!-- tabs:end -->
 ```
 
-#### ** <span style="color: red;">Red</span> **
+#### **<span style="color: red;">Red</span>**
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** <span style="color: red;">Red</span> **
+#### **<span style="color: red;">Red</span>**
 
 ...
 
 <!-- tabs:end -->
 ```
 
-#### ** :smile: **
+#### **:smile:**
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** :smile: **
+#### **:smile:**
 
 ...
 
 <!-- tabs:end -->
 ```
 
-#### ** 😀 **
+#### **😀**
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** 😀 **
+#### **😀**
 
 ...
 
 <!-- tabs:end -->
 ```
 
-#### ** Badge <span class="tab-badge">New!</span> **
+#### **Badge <span class="tab-badge">New!</span>**
 
 **Tab Markdown**
 
 ```markdown
 <!-- tabs:start -->
 
-#### ** Badge <span class="tab-badge">New!</span> **
+#### **Badge <span class="tab-badge">New!</span>**
 
 ...
 
@@ -629,9 +629,9 @@ When the tab is active, note the addition of the `docsify-tabs__tab--active` cla
 
 ## Contact & Support
 
-* Create a [GitHub issue](https://github.com/jhildenbiddle/docsify-tabs/issues) for bug reports, feature requests, or questions
-* Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-* Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-tabs) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=css,developers,frontend,javascript) to support the project!
+- Create a [GitHub issue](https://github.com/jhildenbiddle/docsify-tabs/issues) for bug reports, feature requests, or questions
+- Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
+- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-tabs) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=css,developers,frontend,javascript) to support the project!
 
 ## License
 
