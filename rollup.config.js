@@ -49,10 +49,10 @@ const pluginSettings = {
         },
         minimize: true,
         plugins : [
-            require('postcss-import')(),
-            require('autoprefixer')(),
-            require('postcss-custom-properties')(),
-            require('postcss-flexbugs-fixes')()
+            // require('postcss-import')(),
+            // require('autoprefixer')(),
+            // require('postcss-custom-properties')(),
+            // require('postcss-flexbugs-fixes')()
         ]
     },
     terser: {
