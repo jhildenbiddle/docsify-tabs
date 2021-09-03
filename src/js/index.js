@@ -1,7 +1,7 @@
 // Dependencies
 // =============================================================================
 import { version as pkgVersion } from '../../package.json';
-import '../scss/style.scss';
+// import '../scss/style.scss';
 
 
 // Constants and variables

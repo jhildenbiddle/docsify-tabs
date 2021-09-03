@@ -8,7 +8,7 @@ import { eslint }      from 'rollup-plugin-eslint';
 import json            from '@rollup/plugin-json';
 import merge           from 'lodash.merge';
 import pkg             from './package.json';
-import postcss         from 'rollup-plugin-postcss';
+// import postcss         from 'rollup-plugin-postcss';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser }      from 'rollup-plugin-terser';
 
@@ -89,7 +89,7 @@ const config = {
         nodeResolve(),
         commonjs(),
         json(),
-        postcss(pluginSettings.postcss),
+        // postcss(pluginSettings.postcss),
         eslint(pluginSettings.eslint),
         babel(pluginSettings.babel)
     ],
