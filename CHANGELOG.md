@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.2
+
+*2021-09-02*
+
+- Fix code quality badges
+- Add GitHub CI
+
 ## 1.5.1
 
 *2021-09-02*
