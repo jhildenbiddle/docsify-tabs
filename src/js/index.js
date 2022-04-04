@@ -375,8 +375,8 @@ if (window) {
     // Init plugin
     if (settings.tabComments || settings.tabHeadings) {
         window.$docsify.plugins = [].concat(
-            docsifyTabs,
-            (window.$docsify.plugins || [])
+            (window.$docsify.plugins || []),
+            docsifyTabs
         );
     }
 }
