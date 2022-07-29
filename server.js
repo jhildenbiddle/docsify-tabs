@@ -39,8 +39,20 @@ browserSync.init({
             replace: '/CHANGELOG.md'
         },
         {
-            match  : /https?:\/\/cdn\.jsdelivr\.net\/npm\/docsify-tabs@1/g,
+            // CDN versioned default
+            // Ex1: //cdn.com/package-name
+            // Ex2: http://cdn.com/package-name@1.0.0
+            // Ex3: https://cdn.com/package-name@latest
+            match  : /(?:https?:)*\/\/.*cdn.*docsify-tabs[@\d.latest]*(?=["'])/g,
             replace: '/docsify-tabs.min.js'
+        },
+        {
+            // CDN paths to local paths
+            // Ex1: //cdn.com/package-name/path/file.js => /path/file.js
+            // Ex2: http://cdn.com/package-name@1.0.0/dist/file.js => /dist/file.js
+            // Ex3: https://cdn.com/package-name@latest/dist/file.js => /dist/file.js
+            match  : /(?:https?:)*\/\/.*cdn.*docsify-tabs[@\d.latest]*\/(?:dist\/)/g,
+            replace: '/'
         }
     ]
 });
