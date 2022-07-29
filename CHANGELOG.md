@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.3
+
+*2022-07-29*
+
+- Fix plugin insertion point (fix for docsify-mustache) (#44)
+- Update dependencies
+
 ## 1.5.2
 
 *2021-09-02*
