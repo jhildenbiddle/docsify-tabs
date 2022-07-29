@@ -64,7 +64,7 @@ This is some text.
 
 <!-- tabs:end -->
 
-?> Like docsify-tabs? Be sure to check out [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable) for your site theme!
+?> Like this plugin? Check out [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable) for your site theme, [docsify-plugin-ethicalads](https://jhildenbiddle.github.io/docsify-plugin-ethicalads/) for EthicalAds integration, and [docsify-plugin-runkit](https://jhildenbiddle.github.io/docsify-plugin-runkit/) for live JavaScript REPLs!
 
 ## Features
 
@@ -632,7 +632,7 @@ When the tab is active, note the addition of the `docsify-tabs__tab--active` cla
 
 - Create a [GitHub issue](https://github.com/jhildenbiddle/docsify-tabs/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-tabs) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=css,developers,frontend,javascript) to support the project!
+- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/docsify-tabs) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fdocsify-tabs&hashtags=css,developers,frontend,javascript) to support the project!
 
 ## License
 
