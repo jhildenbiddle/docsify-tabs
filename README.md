@@ -37,7 +37,7 @@ A [docsify.js](https://docsify.js.org) plugin for rendering tabbed content from 
 
 See the [documentation site](https://jhildenbiddle.github.io/docsify-tabs) for details.
 
-## Contact
+## Contact & Support
 
 - Create a [GitHub issue](https://github.com/jhildenbiddle/docsify-tabs/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
