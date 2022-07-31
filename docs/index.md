@@ -82,7 +82,7 @@ This is some text.
 
 ## Installation
 
-1. Add the docsify-tabs plugin to your `index.html` after docsify. CDN availability includes [jsdelivr](https://www.jsdelivr.com/package/npm/docsify-tabs) (below), [unpkg](https://unpkg.com/browse/docsify-tabs/), and other CDN services that auto-publish npm packages.
+1. Add the docsify-tabs plugin to your `index.html` after docsify. The plugin is available on [jsdelivr](https://www.jsdelivr.com/package/npm/docsify-tabs) (below), [unpkg](https://unpkg.com/browse/docsify-tabs/), and other CDN services that auto-publish npm packages.
 
    ```html
    <!-- docsify (latest v4.x.x)-->
