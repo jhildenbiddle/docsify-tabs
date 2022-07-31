@@ -82,7 +82,7 @@ This is some text.
 
 ## Installation
 
-1. Add the docsify-tabs plugin to your `index.html` after docsify.
+1. Add the docsify-tabs plugin to your `index.html` after docsify. CDN availability includes [jsdelivr](https://www.jsdelivr.com/package/npm/docsify-tabs) (below), [unpkg](https://unpkg.com/browse/docsify-tabs/), and other CDN services that auto-publish npm packages.
 
    ```html
    <!-- docsify (latest v4.x.x)-->
@@ -91,8 +91,6 @@ This is some text.
    <!-- docsify-tabs (latest v1.x.x) -->
    <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
    ```
-
-   CDN availability includes [jsdelivr](https://www.jsdelivr.com/package/npm/docsify-tabs) (above), [unpkg](https://unpkg.com/browse/docsify-tabs/), and other CDN services that auto-publish npm packages.
 
    !> Note the `@` version number lock in the URLs above. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version number after the @ symbol.
 
