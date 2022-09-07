@@ -22,7 +22,7 @@ const regex = {
     // Matches tab replacement comment
     // 0: Match
     // 1: Replacement HTML
-    commentReplaceMarkup: new RegExp(`<!-- ${commentReplaceMark} (.*) -->`),
+    commentReplaceMarkup: new RegExp(`<!-- ${commentReplaceMark} (.*?) -->`),
 
     // Matches tab set by start/end comment
     // 0: Match
