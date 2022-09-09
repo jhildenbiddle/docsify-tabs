@@ -33,7 +33,7 @@
 }
 
 .docsify-tabs__content {
-    visibility: hidden;
+    display:none;
     position: absolute;
     overflow: hidden;
     height: 0;
@@ -49,7 +49,7 @@
     }
 
     .docsify-tabs__tab--active + & {
-        visibility: visible;
+        display:block;
         position: relative;
         overflow: auto;
         height: auto;
