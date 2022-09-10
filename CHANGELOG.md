@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.4
+
+*2022-09-10*
+
+- Fix inactive tab content flicker on tab change (#27)
+- Fix tab parsing with compressed HTML (#45)
+
 ## 1.5.3
 
 *2022-07-29*
