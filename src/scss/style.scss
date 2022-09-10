@@ -32,19 +32,18 @@
     appearance: none;
 }
 
-.docsify-tabs__content {
+.docsify-tabs__content[class] { // Add weight instead of !important
     visibility: hidden;
     position: absolute;
     overflow: hidden;
     height: 0;
     width: 100%;
 
-    :first-child {
+    > :first-child {
         margin-top: 0;
     }
 
-    :last-child,
-    :first-child ~ :last-child { // Add weight instead of !important
+    > :last-child {
         margin-bottom: 0;
     }
 
