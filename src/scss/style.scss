@@ -74,8 +74,11 @@
     }
 
     .docsify-tabs__content {
-        padding: var(--docsifytabs-content-padding);
         background: var(--docsifytabs-content-background);
+    }
+
+    .docsify-tabs__tab--active + .docsify-tabs__content {
+        padding: var(--docsifytabs-content-padding);
     }
 }
 
