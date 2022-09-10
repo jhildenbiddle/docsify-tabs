@@ -56,3 +56,7 @@ label[data-class-target="label + .docsify-tabs"] {
     width: calc(100% + calc(var(--docsifytabs-content-padding) * 2));
     margin-bottom: calc(0px - var(--docsifytabs-content-padding));
 }
+
+[data-tab-content="codepen"] .cp_embed_wrapper > * {
+    margin: 0;
+}
