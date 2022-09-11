@@ -53,6 +53,13 @@ const settings = {
     tabHeadings: true
 };
 
+const storageKeys = {
+    get persist() {
+        return `docsify-tabs.persist.${window.location.pathname}`;
+    },
+    sync: 'docsify-tabs.sync'
+};
+
 
 // Functions
 // =============================================================================
@@ -210,8 +217,8 @@ function renderTabsStage2(html) {
 function setDefaultTabs() {
     const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
     const tabBlocks         = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
-    const tabStoragePersist = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
-    const tabStorageSync    = JSON.parse(sessionStorage.getItem('*')) || [];
+    const tabStoragePersist = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
+    const tabStorageSync    = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
     setActiveTabFromAnchor();
 
@@ -258,15 +265,15 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
             if (settings.persist) {
                 const tabBlocks     = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
                 const tabBlockIndex = tabBlocks.indexOf(tabBlock);
-                const tabStorage    = JSON.parse(sessionStorage.getItem(window.location.href)) || {};
+                const tabStorage    = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
 
                 tabStorage[tabBlockIndex] = activeButtonLabel;
-                sessionStorage.setItem(window.location.href, JSON.stringify(tabStorage));
+                sessionStorage.setItem(storageKeys.persist, JSON.stringify(tabStorage));
             }
 
             if (settings.sync) {
                 const tabButtonMatches = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabButton}[data-tab="${activeButtonLabel}"]`)) : [];
-                const tabStorage       = JSON.parse(sessionStorage.getItem('*')) || [];
+                const tabStorage       = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
                 tabButtonMatches.forEach(tabButtonMatch => {
                     setActiveTab(tabButtonMatch, true);
@@ -283,7 +290,7 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
                 // Add label if not already in first position
                 if (tabStorage.indexOf(activeButtonLabel) !== 0) {
                     tabStorage.unshift(activeButtonLabel);
-                    sessionStorage.setItem('*', JSON.stringify(tabStorage));
+                    sessionStorage.setItem(storageKeys.sync, JSON.stringify(tabStorage));
                 }
             }
         }
