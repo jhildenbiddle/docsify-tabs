@@ -223,17 +223,17 @@ function setDefaultTabs() {
     setActiveTabFromAnchor();
 
     tabBlocks.forEach((tabBlock, index) => {
-        let activeButton = tabBlock.querySelector(`.${classNames.tabButtonActive}`);
+        let activeButton = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButtonActive}`))[0];
 
         if (!activeButton) {
             if (settings.sync && tabStorageSync.length) {
                 activeButton = tabStorageSync
-                    .map(label => tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${label}"]`))
+                    .map(label => Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${label}"]`))[0])
                     .filter(elm => elm)[0];
             }
 
             if (!activeButton && settings.persist) {
-                activeButton = tabBlock.querySelector(`.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`);
+                activeButton = tabBlock.querySelector(Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`))[0]);
             }
 
             activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
