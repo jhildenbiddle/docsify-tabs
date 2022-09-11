@@ -18,6 +18,8 @@ A basic tab set using the default [options](#options).
 
 #### **Tab A**
 
+### Heading for Tab A {docsify-ignore}
+
 This is some text.
 
 - List item A-1
@@ -29,6 +31,22 @@ function add(a, b) {
   return a + b;
 }
 ```
+
+<!-- tabs:start -->
+
+#### **Nested Tab 1**
+
+Life is what happens when you're busy making other plans.
+
+\- *John Lennon*
+
+#### **Nested Tab 2**
+
+The greatest glory in living lies not in never falling, but in rising every time we fall.
+
+\- *Nelson Mandela*
+
+<!-- tabs:end -->
 
 #### **Tab B**
 
@@ -48,8 +66,6 @@ body {
 ```
 
 #### **Tab C**
-
-### Heading for Tab C {docsify-ignore}
 
 This is some text.
 
@@ -77,7 +93,7 @@ This is some text.
 
 **Limitations**
 
-- Nested tabsets (i.e. tabs within tabs) are not supported
+- ~~Nested tabsets are not supported~~ Available in v1.6!
 - Tabs wraps when their combined width exceeds the content area width
 
 ## Installation

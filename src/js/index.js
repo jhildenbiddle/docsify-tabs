@@ -24,13 +24,14 @@ const regex = {
     // 1: Replacement HTML
     commentReplaceMarkup: new RegExp(`<!-- ${commentReplaceMark} (.*?) -->`),
 
-    // Matches tab set by start/end comment
+    // Matches inner-most tab set by start/end comment
+    // Ex: <!-- tabs:start --> (<!-- tabs:start --><!-- tabs:end -->) <!-- tabs:end -->
     // 0: Match
     // 1: Indent
     // 2: Start comment: <!-- tabs:start -->
-    // 3: Labels and content
+    // 3: undefined
     // 4: End comment: <!-- tabs:end -->
-    tabBlockMarkup: /[\r\n]*(\s*)(<!-+\s+tabs:\s*?start\s+-+>)[\r\n]+([\s|\S]*?)[\r\n\s]+(<!-+\s+tabs:\s*?end\s+-+>)/m,
+    tabBlockMarkup: /( *)(<!-+\s+tabs:\s*?start\s+-+>)(?:(?!(<!-+\s+tabs:\s*?(?:start|end)\s+-+>))[\s\S])*(<!-+\s+tabs:\s*?end\s+-+>)/,
 
     // Matches tab label and content
     // 0: Match
@@ -119,28 +120,29 @@ function renderTabsStage1(content, vm) {
     const tabTheme = settings.theme ? `${classNames.tabBlock}--${settings.theme}` : '';
     const tempElm  = document.createElement('div');
 
+    let tabBlockMatch = content.match(regex.tabBlockMarkup);
     let tabIndex = 1;
-    let tabBlockMatch; // eslint-disable-line no-unused-vars
-    let tabMatch; // eslint-disable-line no-unused-vars
 
     // Process each tab set
-    while ((tabBlockMatch = regex.tabBlockMarkup.exec(content)) !== null) {
-        let tabBlock            = tabBlockMatch[0];
-        let tabStartReplacement = '';
-        let tabEndReplacement   = '';
+    while (tabBlockMatch) {
+        let tabBlockOut = tabBlockMatch[0];
 
-        const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlock);
-        const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlock);
         const tabBlockIndent = tabBlockMatch[1];
         const tabBlockStart  = tabBlockMatch[2];
         const tabBlockEnd    = tabBlockMatch[4];
+        const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlockOut);
+        const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlockOut);
+
+        let tabMatch;
+        let tabStartReplacement = '';
+        let tabEndReplacement   = '';
 
         if (hasTabComments || hasTabHeadings) {
             tabStartReplacement = `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`;
             tabEndReplacement = `\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`;
 
             // Process each tab panel
-            while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlock) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlock) : null)) !== null) {
+            while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlockOut) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlockOut) : null)) !== null) {
                 // Process tab title as markdown
                 // Ex: <!-- tab:**Bold** and <span style="color: red;">red</span> -->
                 tempElm.innerHTML = tabMatch[2].trim() ? vm.compiler.compile(tabMatch[2]).replace(/<\/?p>/g, '') : `Tab ${tabIndex}`;
@@ -154,7 +156,7 @@ function renderTabsStage1(content, vm) {
 
                 // Use replace function to avoid regex special replacement
                 // strings being processed ($$, $&, $`, $', $n)
-                tabBlock = tabBlock.replace(tabMatch[0], () => [
+                tabBlockOut = tabBlockOut.replace(tabMatch[0], () => [
                     `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabData}">${tabTitle}</button> -->`,
                     `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabData}"> -->`,
                     `\n\n${tabBlockIndent}${tabContent}`,
@@ -165,9 +167,11 @@ function renderTabsStage1(content, vm) {
             }
         }
 
-        tabBlock = tabBlock.replace(tabBlockStart, () => tabStartReplacement);
-        tabBlock = tabBlock.replace(tabBlockEnd, () => tabEndReplacement);
-        content = content.replace(tabBlockMatch[0], () => tabBlock);
+        tabBlockOut = tabBlockOut.replace(tabBlockStart, () => tabStartReplacement);
+        tabBlockOut = tabBlockOut.replace(tabBlockEnd, () => tabEndReplacement);
+        content = content.replace(tabBlockMatch[0], () => tabBlockOut);
+
+        tabBlockMatch = content.match(regex.tabBlockMarkup);
     }
 
     // Restore code blocks
@@ -244,7 +248,7 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
         const activeButtonLabel = activeButton.getAttribute('data-tab');
         const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
         const tabBlock          = activeButton.parentNode;
-        const tabButtons        = Array.apply(null, tabBlock.querySelectorAll(`.${classNames.tabButton}`));
+        const tabButtons        = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, 'button'));
         const tabBlockOffset    = tabBlock.offsetTop;
 
         tabButtons.forEach(buttonElm => buttonElm.classList.remove(classNames.tabButtonActive));
