@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.6.0
+
+*2022-09-11*
+
+- Add support for nested tabs (#5)
+- Fix tab content margin of first & last element
+- Update sessionStorage keys to include namespace
+
 ## 1.5.4
 
 *2022-09-10*
