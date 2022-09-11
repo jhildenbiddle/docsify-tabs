@@ -87,13 +87,13 @@ This is some text.
 - Generate tabbed content using unobtrusive markup
 - Persist tab selections on refresh/revisit
 - Sync tab selection for tabs with matching labels
+- Nest tab sets within tab sets
 - Style tabs using "classic" or "material" tab theme
 - Customize styles without complex CSS using CSS custom properties
 - Compatible with [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable/) themes
 
 **Limitations**
 
-- ~~Nested tabsets are not supported~~ Available in v1.6!
 - Tabs wraps when their combined width exceeds the content area width
 
 ## Installation

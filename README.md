@@ -24,13 +24,13 @@ A [docsify.js](https://docsify.js.org) plugin for rendering tabbed content from 
 - Generate tabbed content using unobtrusive markup
 - Persist tab selections on refresh/revisit
 - Sync tab selection for tabs with matching labels
+- Nest tab sets within tab sets
 - Style tabs using "classic" or "material" tab theme
 - Customize styles without complex CSS using CSS custom properties
 - Compatible with [docsify-themeable](https://jhildenbiddle.github.io/docsify-themeable/) themes
 
 **Limitations**
 
-- Nested tabsets (i.e. tabs within tabs) are not supported
 - Tabs wraps when their combined width exceeds the content area width
 
 ## Installation & Options
