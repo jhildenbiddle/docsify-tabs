@@ -15,9 +15,15 @@ const classNames = {
     tabContent     : 'docsify-tabs__content'
 };
 const regex = {
+    escapeMarkup: /(\\.)/g,
+
+    // Matches markdown inline code
+    // Example: `text`
+    codeInlineMarkup: /(`.*?`)/g,
+
     // Matches markdown code blocks (inline and multi-line)
     // Example: ```text```
-    codeMarkup: /(```[\s\S]*?```)/gm,
+    codeBlockMarkup: /(^```[\s\S]*?```)/gm,
 
     // Matches tab replacement comment
     // 0: Match
@@ -113,17 +119,37 @@ function matchSelector(elm, selectorString) {
  * @returns {string}
  */
 function renderTabsStage1(content, vm) {
-    const codeBlockMatch   = content.match(regex.codeMarkup) || [];
-    const codeBlockMarkers = codeBlockMatch.map((item, i) => {
-        const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
+    // Protect content:
+    // Replace escaped char with marker to prevent wrong regex match.
+    // Replace code block with marker to ensure tab markup within code
+    // blocks is not processed.
+    // These markers are replaced with their associated code blocs after
+    // tabs have been processed.
+    const escapeMatch   = content.match(regex.escapeMarkup) || [];
+    const escapeMarkers = escapeMatch.map((item, i) => {
+        const codeMarker = `<!-- ${commentReplaceMark} ESCAPE${i} -->`;
 
-        // Replace code block with marker to ensure tab markup within code
-        // blocks is not processed. These markers are replaced with their
-        // associated code blocs after tabs have been processed.
         content = content.replace(item, () => codeMarker);
 
         return codeMarker;
     });
+    const codeBlockMatch   = content.match(regex.codeBlockMarkup) || [];
+    const codeBlockMarkers = codeBlockMatch.map((item, i) => {
+        const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
+
+        content = content.replace(item, () => codeMarker);
+
+        return codeMarker;
+    });
+    const codeInlineMatch   = content.match(regex.codeInlineMarkup) || [];
+    const codeInlineMarkers = codeInlineMatch.map((item, i) => {
+        const codeMarker = `<!-- ${commentReplaceMark} CODEINLINE${i} -->`;
+        content = content.replace(item, () => codeMarker);
+
+        return codeMarker;
+    });
+
+    // Render tabs
     const tabTheme = settings.theme ? `${classNames.tabBlock}--${settings.theme}` : '';
     const tempElm  = document.createElement('div');
 
@@ -181,9 +207,15 @@ function renderTabsStage1(content, vm) {
         tabBlockMatch = content.match(regex.tabBlockMarkup);
     }
 
-    // Restore code blocks
+    codeInlineMarkers.forEach((item, i) => {
+        content = content.replace(item, () => codeInlineMatch[i]);
+    });
+    // Unprotect content - restore code blocks
     codeBlockMarkers.forEach((item, i) => {
         content = content.replace(item, () => codeBlockMatch[i]);
+    });
+    escapeMarkers.forEach((item, i) => {
+        content = content.replace(item, () => escapeMatch[i]);
     });
 
     return content;
