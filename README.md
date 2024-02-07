@@ -1,7 +1,7 @@
 # docsify-tabs
 
 [![NPM](https://img.shields.io/npm/v/docsify-tabs.svg?style=flat-square)](https://www.npmjs.com/package/docsify-tabs)
-[![GitHub Workflow Status (master)](https://img.shields.io/github/workflow/status/jhildenbiddle/docsify-tabs/Build/master?label=checks&style=flat-square)](https://github.com/jhildenbiddle/docsify-tabs/actions?query=branch%3Amaster+)
+[![GitHub Workflow Status (master)](https://img.shields.io/github/actions/workflow/status/jhildenbiddle/docsify-tabs/test.yml?branch=master&label=checks&style=flat-square)](https://github.com/jhildenbiddle/docsify-tabs/actions?query=branch%3Amaster+)
 [![Codacy grade](https://img.shields.io/codacy/grade/e9c2a9504211450ab39e0d72a1158a47.svg?style=flat-square)](https://app.codacy.com/gh/jhildenbiddle/docsify-tabs/dashboard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/docsify-tabs/blob/master/LICENSE)
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/docsify-tabs/badge)](https://www.jsdelivr.com/package/npm/docsify-tabs)
