@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.2
+
+_2024-02-29_
+
+- Fix tab selection on reload (#51)
+
 ## 1.6.1
 
 _2024-02-06_
