@@ -233,7 +233,7 @@ function setDefaultTabs() {
             }
 
             if (!activeButton && settings.persist) {
-                activeButton = tabBlock.querySelector(Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`))[0]);
+                activeButton = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`))[0];
             }
 
             activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
