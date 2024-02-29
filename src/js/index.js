@@ -3,63 +3,64 @@
 import { version as pkgVersion } from '../../package.json';
 import '../scss/style.scss';
 
-
 // Constants and variables
 // =============================================================================
 const commentReplaceMark = 'tabs:replace';
 const classNames = {
-    tabsContainer  : 'content',
-    tabBlock       : 'docsify-tabs',
-    tabButton      : 'docsify-tabs__tab',
-    tabButtonActive: 'docsify-tabs__tab--active',
-    tabContent     : 'docsify-tabs__content'
+  tabsContainer: 'content',
+  tabBlock: 'docsify-tabs',
+  tabButton: 'docsify-tabs__tab',
+  tabButtonActive: 'docsify-tabs__tab--active',
+  tabContent: 'docsify-tabs__content'
 };
 const regex = {
-    // Matches markdown code blocks (inline and multi-line)
-    // Example: ```text```
-    codeMarkup: /(```[\s\S]*?```)/gm,
+  // Matches markdown code blocks (inline and multi-line)
+  // Example: ```text```
+  codeMarkup: /(```[\s\S]*?```)/gm,
 
-    // Matches tab replacement comment
-    // 0: Match
-    // 1: Replacement HTML
-    commentReplaceMarkup: new RegExp(`<!-- ${commentReplaceMark} (.*?) -->`),
+  // Matches tab replacement comment
+  // 0: Match
+  // 1: Replacement HTML
+  commentReplaceMarkup: new RegExp(`<!-- ${commentReplaceMark} (.*?) -->`),
 
-    // Matches inner-most tab set by start/end comment
-    // Ex: <!-- tabs:start --> (<!-- tabs:start --><!-- tabs:end -->) <!-- tabs:end -->
-    // 0: Match
-    // 1: Indent
-    // 2: Start comment: <!-- tabs:start -->
-    // 3: undefined
-    // 4: End comment: <!-- tabs:end -->
-    tabBlockMarkup: /( *)(<!-+\s+tabs:\s*?start\s+-+>)(?:(?!(<!-+\s+tabs:\s*?(?:start|end)\s+-+>))[\s\S])*(<!-+\s+tabs:\s*?end\s+-+>)/,
+  // Matches inner-most tab set by start/end comment
+  // Ex: <!-- tabs:start --> (<!-- tabs:start --><!-- tabs:end -->) <!-- tabs:end -->
+  // 0: Match
+  // 1: Indent
+  // 2: Start comment: <!-- tabs:start -->
+  // 3: undefined
+  // 4: End comment: <!-- tabs:end -->
+  tabBlockMarkup:
+    /( *)(<!-+\s+tabs:\s*?start\s+-+>)(?:(?!(<!-+\s+tabs:\s*?(?:start|end)\s+-+>))[\s\S])*(<!-+\s+tabs:\s*?end\s+-+>)/,
 
-    // Matches tab label and content
-    // 0: Match
-    // 1: Label: <!-- tab:Label -->
-    // 2: Content
-    tabCommentMarkup: /[\r\n]*(\s*)<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+tabs?:(?!replace))/m,
+  // Matches tab label and content
+  // 0: Match
+  // 1: Label: <!-- tab:Label -->
+  // 2: Content
+  tabCommentMarkup:
+    /[\r\n]*(\s*)<!-+\s+tab:\s*(.*)\s+-+>[\r\n]+([\s\S]*?)[\r\n]*\s*(?=<!-+\s+tabs?:(?!replace))/m,
 
-    // Matches tab label and content
-    // 0: Match
-    // 1: Label: #### **Label** OR #### __Label__
-    // 2: Content
-    tabHeadingMarkup: /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
+  // Matches tab label and content
+  // 0: Match
+  // 1: Label: #### **Label** OR #### __Label__
+  // 2: Content
+  tabHeadingMarkup:
+    /[\r\n]*(\s*)#{1,6}\s*[*_]{2}\s*(.*[^\s])\s*[*_]{2}[\r\n]+([\s\S]*?)(?=#{1,6}\s*[*_]{2}|<!-+\s+tabs:\s*?end\s+-+>)/m
 };
 const settings = {
-    persist    : true,
-    sync       : true,
-    theme      : 'classic',
-    tabComments: true,
-    tabHeadings: true
+  persist: true,
+  sync: true,
+  theme: 'classic',
+  tabComments: true,
+  tabHeadings: true
 };
 
 const storageKeys = {
-    get persist() {
-        return `docsify-tabs.persist.${window.location.pathname}`;
-    },
-    sync: 'docsify-tabs.sync'
+  get persist() {
+    return `docsify-tabs.persist.${window.location.pathname}`;
+  },
+  sync: 'docsify-tabs.sync'
 };
-
 
 // Functions
 // =============================================================================
@@ -72,21 +73,21 @@ const storageKeys = {
  * @return {(object|null)}
  */
 function getClosest(elm, closestSelectorString) {
-    if (Element.prototype.closest) {
-        return elm.closest(closestSelectorString);
+  if (Element.prototype.closest) {
+    return elm.closest(closestSelectorString);
+  }
+
+  while (elm) {
+    const isMatch = matchSelector(elm, closestSelectorString);
+
+    if (isMatch) {
+      return elm;
     }
 
-    while (elm) {
-        const isMatch = matchSelector(elm, closestSelectorString);
+    elm = elm.parentNode || null;
+  }
 
-        if (isMatch) {
-            return elm;
-        }
-
-        elm = elm.parentNode || null;
-    }
-
-    return elm;
+  return elm;
 }
 
 /**
@@ -97,11 +98,12 @@ function getClosest(elm, closestSelectorString) {
  * @return {boolean}
  */
 function matchSelector(elm, selectorString) {
-    const matches = Element.prototype.matches ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.webkitMatchesSelector;
+  const matches =
+    Element.prototype.matches ||
+    Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector;
 
-    return matches.call(elm, selectorString);
+  return matches.call(elm, selectorString);
 }
 
 /**
@@ -113,80 +115,99 @@ function matchSelector(elm, selectorString) {
  * @returns {string}
  */
 function renderTabsStage1(content, vm) {
-    const codeBlockMatch   = content.match(regex.codeMarkup) || [];
-    const codeBlockMarkers = codeBlockMatch.map((item, i) => {
-        const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
+  const codeBlockMatch = content.match(regex.codeMarkup) || [];
+  const codeBlockMarkers = codeBlockMatch.map((item, i) => {
+    const codeMarker = `<!-- ${commentReplaceMark} CODEBLOCK${i} -->`;
 
-        // Replace code block with marker to ensure tab markup within code
-        // blocks is not processed. These markers are replaced with their
-        // associated code blocs after tabs have been processed.
-        content = content.replace(item, () => codeMarker);
+    // Replace code block with marker to ensure tab markup within code
+    // blocks is not processed. These markers are replaced with their
+    // associated code blocs after tabs have been processed.
+    content = content.replace(item, () => codeMarker);
 
-        return codeMarker;
-    });
-    const tabTheme = settings.theme ? `${classNames.tabBlock}--${settings.theme}` : '';
-    const tempElm  = document.createElement('div');
+    return codeMarker;
+  });
+  const tabTheme = settings.theme
+    ? `${classNames.tabBlock}--${settings.theme}`
+    : '';
+  const tempElm = document.createElement('div');
 
-    let tabBlockMatch = content.match(regex.tabBlockMarkup);
-    let tabIndex = 1;
+  let tabBlockMatch = content.match(regex.tabBlockMarkup);
+  let tabIndex = 1;
 
-    // Process each tab set
-    while (tabBlockMatch) {
-        let tabBlockOut = tabBlockMatch[0];
+  // Process each tab set
+  while (tabBlockMatch) {
+    let tabBlockOut = tabBlockMatch[0];
 
-        const tabBlockIndent = tabBlockMatch[1];
-        const tabBlockStart  = tabBlockMatch[2];
-        const tabBlockEnd    = tabBlockMatch[4];
-        const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlockOut);
-        const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlockOut);
+    const tabBlockIndent = tabBlockMatch[1];
+    const tabBlockStart = tabBlockMatch[2];
+    const tabBlockEnd = tabBlockMatch[4];
+    const hasTabComments =
+      settings.tabComments && regex.tabCommentMarkup.test(tabBlockOut);
+    const hasTabHeadings =
+      settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlockOut);
 
-        let tabMatch;
-        let tabStartReplacement = '';
-        let tabEndReplacement   = '';
+    let tabMatch;
+    let tabStartReplacement = '';
+    let tabEndReplacement = '';
 
-        if (hasTabComments || hasTabHeadings) {
-            tabStartReplacement = `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`;
-            tabEndReplacement = `\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`;
+    if (hasTabComments || hasTabHeadings) {
+      tabStartReplacement = `<!-- ${commentReplaceMark} <div class="${[classNames.tabBlock, tabTheme].join(' ')}"> -->`;
+      tabEndReplacement = `\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`;
 
-            // Process each tab panel
-            while ((tabMatch = (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlockOut) : null) || (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlockOut) : null)) !== null) {
-                // Process tab title as markdown
-                // Ex: <!-- tab:**Bold** and <span style="color: red;">red</span> -->
-                tempElm.innerHTML = tabMatch[2].trim() ? vm.compiler.compile(tabMatch[2]).replace(/<\/?p>/g, '') : `Tab ${tabIndex}`;
+      // Process each tab panel
+      while (
+        (tabMatch =
+          (settings.tabComments
+            ? regex.tabCommentMarkup.exec(tabBlockOut)
+            : null) ||
+          (settings.tabHeadings
+            ? regex.tabHeadingMarkup.exec(tabBlockOut)
+            : null)) !== null
+      ) {
+        // Process tab title as markdown
+        // Ex: <!-- tab:**Bold** and <span style="color: red;">red</span> -->
+        tempElm.innerHTML = tabMatch[2].trim()
+          ? vm.compiler.compile(tabMatch[2]).replace(/<\/?p>/g, '')
+          : `Tab ${tabIndex}`;
 
-                const tabTitle = tempElm.innerHTML;
-                const tabContent = (tabMatch[3] || '').trim();
-                const tabData = (
-                    tempElm.textContent ||
-                    (tempElm.firstChild.getAttribute('alt') || tempElm.firstChild.getAttribute('src'))
-                ).trim().toLowerCase();
+        const tabTitle = tempElm.innerHTML;
+        const tabContent = (tabMatch[3] || '').trim();
+        const tabData = (
+          tempElm.textContent ||
+          tempElm.firstChild.getAttribute('alt') ||
+          tempElm.firstChild.getAttribute('src')
+        )
+          .trim()
+          .toLowerCase();
 
-                // Use replace function to avoid regex special replacement
-                // strings being processed ($$, $&, $`, $', $n)
-                tabBlockOut = tabBlockOut.replace(tabMatch[0], () => [
-                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabData}">${tabTitle}</button> -->`,
-                    `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabData}"> -->`,
-                    `\n\n${tabBlockIndent}${tabContent}`,
-                    `\n\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`,
-                ].join(''));
+        // Use replace function to avoid regex special replacement
+        // strings being processed ($$, $&, $`, $', $n)
+        tabBlockOut = tabBlockOut.replace(tabMatch[0], () =>
+          [
+            `\n${tabBlockIndent}<!-- ${commentReplaceMark} <button class="${classNames.tabButton}" data-tab="${tabData}">${tabTitle}</button> -->`,
+            `\n${tabBlockIndent}<!-- ${commentReplaceMark} <div class="${classNames.tabContent}" data-tab-content="${tabData}"> -->`,
+            `\n\n${tabBlockIndent}${tabContent}`,
+            `\n\n${tabBlockIndent}<!-- ${commentReplaceMark} </div> -->`
+          ].join('')
+        );
 
-                tabIndex++;
-            }
-        }
-
-        tabBlockOut = tabBlockOut.replace(tabBlockStart, () => tabStartReplacement);
-        tabBlockOut = tabBlockOut.replace(tabBlockEnd, () => tabEndReplacement);
-        content = content.replace(tabBlockMatch[0], () => tabBlockOut);
-
-        tabBlockMatch = content.match(regex.tabBlockMarkup);
+        tabIndex++;
+      }
     }
 
-    // Restore code blocks
-    codeBlockMarkers.forEach((item, i) => {
-        content = content.replace(item, () => codeBlockMatch[i]);
-    });
+    tabBlockOut = tabBlockOut.replace(tabBlockStart, () => tabStartReplacement);
+    tabBlockOut = tabBlockOut.replace(tabBlockEnd, () => tabEndReplacement);
+    content = content.replace(tabBlockMatch[0], () => tabBlockOut);
 
-    return content;
+    tabBlockMatch = content.match(regex.tabBlockMarkup);
+  }
+
+  // Restore code blocks
+  codeBlockMarkers.forEach((item, i) => {
+    content = content.replace(item, () => codeBlockMatch[i]);
+  });
+
+  return content;
 }
 
 /**
@@ -197,16 +218,16 @@ function renderTabsStage1(content, vm) {
  * @returns {string}
  */
 function renderTabsStage2(html) {
-    let tabReplaceMatch; // eslint-disable-line no-unused-vars
+  let tabReplaceMatch; // eslint-disable-line no-unused-vars
 
-    while ((tabReplaceMatch = regex.commentReplaceMarkup.exec(html)) !== null) {
-        const tabComment     = tabReplaceMatch[0];
-        const tabReplacement = tabReplaceMatch[1] || '';
+  while ((tabReplaceMatch = regex.commentReplaceMarkup.exec(html)) !== null) {
+    const tabComment = tabReplaceMatch[0];
+    const tabReplacement = tabReplaceMatch[1] || '';
 
-        html = html.replace(tabComment, () => tabReplacement);
-    }
+    html = html.replace(tabComment, () => tabReplacement);
+  }
 
-    return html;
+  return html;
 }
 
 /**
@@ -215,31 +236,54 @@ function renderTabsStage2(html) {
  * clicked (if persist option is enabled).
  */
 function setDefaultTabs() {
-    const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
-    const tabBlocks         = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
-    const tabStoragePersist = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
-    const tabStorageSync    = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
+  const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
+  const tabBlocks = tabsContainer
+    ? Array.apply(
+        null,
+        tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)
+      )
+    : [];
+  const tabStoragePersist =
+    JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
+  const tabStorageSync =
+    JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
-    setActiveTabFromAnchor();
+  setActiveTabFromAnchor();
 
-    tabBlocks.forEach((tabBlock, index) => {
-        let activeButton = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButtonActive}`))[0];
+  tabBlocks.forEach((tabBlock, index) => {
+    let activeButton = Array.apply(null, tabBlock.children).filter(elm =>
+      matchSelector(elm, `.${classNames.tabButtonActive}`)
+    )[0];
 
-        if (!activeButton) {
-            if (settings.sync && tabStorageSync.length) {
-                activeButton = tabStorageSync
-                    .map(label => Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${label}"]`))[0])
-                    .filter(elm => elm)[0];
-            }
+    if (!activeButton) {
+      if (settings.sync && tabStorageSync.length) {
+        activeButton = tabStorageSync
+          .map(
+            label =>
+              Array.apply(null, tabBlock.children).filter(elm =>
+                matchSelector(
+                  elm,
+                  `.${classNames.tabButton}[data-tab="${label}"]`
+                )
+              )[0]
+          )
+          .filter(elm => elm)[0];
+      }
 
-            if (!activeButton && settings.persist) {
-                activeButton = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`))[0];
-            }
+      if (!activeButton && settings.persist) {
+        activeButton = Array.apply(null, tabBlock.children).filter(elm =>
+          matchSelector(
+            elm,
+            `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`
+          )
+        )[0];
+      }
 
-            activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
-            activeButton && activeButton.classList.add(classNames.tabButtonActive);
-        }
-    });
+      activeButton =
+        activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
+      activeButton && activeButton.classList.add(classNames.tabButtonActive);
+    }
+  });
 }
 
 /**
@@ -249,145 +293,171 @@ function setDefaultTabs() {
  * @param {object} elm Tab toggle element to mark as active
  */
 function setActiveTab(elm, _isMatchingTabSync = false) {
-    const activeButton = getClosest(elm, `.${classNames.tabButton}`);
+  const activeButton = getClosest(elm, `.${classNames.tabButton}`);
 
-    if (activeButton) {
-        const activeButtonLabel = activeButton.getAttribute('data-tab');
-        const tabsContainer     = document.querySelector(`.${classNames.tabsContainer}`);
-        const tabBlock          = activeButton.parentNode;
-        const tabButtons        = Array.apply(null, tabBlock.children).filter(elm => matchSelector(elm, 'button'));
-        const tabBlockOffset    = tabBlock.offsetTop;
+  if (activeButton) {
+    const activeButtonLabel = activeButton.getAttribute('data-tab');
+    const tabsContainer = document.querySelector(
+      `.${classNames.tabsContainer}`
+    );
+    const tabBlock = activeButton.parentNode;
+    const tabButtons = Array.apply(null, tabBlock.children).filter(elm =>
+      matchSelector(elm, 'button')
+    );
+    const tabBlockOffset = tabBlock.offsetTop;
 
-        tabButtons.forEach(buttonElm => buttonElm.classList.remove(classNames.tabButtonActive));
-        activeButton.classList.add(classNames.tabButtonActive);
+    tabButtons.forEach(buttonElm =>
+      buttonElm.classList.remove(classNames.tabButtonActive)
+    );
+    activeButton.classList.add(classNames.tabButtonActive);
 
-        if (!_isMatchingTabSync) {
-            if (settings.persist) {
-                const tabBlocks     = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)) : [];
-                const tabBlockIndex = tabBlocks.indexOf(tabBlock);
-                const tabStorage    = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
+    if (!_isMatchingTabSync) {
+      if (settings.persist) {
+        const tabBlocks = tabsContainer
+          ? Array.apply(
+              null,
+              tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)
+            )
+          : [];
+        const tabBlockIndex = tabBlocks.indexOf(tabBlock);
+        const tabStorage =
+          JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
 
-                tabStorage[tabBlockIndex] = activeButtonLabel;
-                sessionStorage.setItem(storageKeys.persist, JSON.stringify(tabStorage));
-            }
+        tabStorage[tabBlockIndex] = activeButtonLabel;
+        sessionStorage.setItem(storageKeys.persist, JSON.stringify(tabStorage));
+      }
 
-            if (settings.sync) {
-                const tabButtonMatches = tabsContainer ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabButton}[data-tab="${activeButtonLabel}"]`)) : [];
-                const tabStorage       = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
+      if (settings.sync) {
+        const tabButtonMatches = tabsContainer
+          ? Array.apply(
+              null,
+              tabsContainer.querySelectorAll(
+                `.${classNames.tabButton}[data-tab="${activeButtonLabel}"]`
+              )
+            )
+          : [];
+        const tabStorage =
+          JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
-                tabButtonMatches.forEach(tabButtonMatch => {
-                    setActiveTab(tabButtonMatch, true);
-                });
+        tabButtonMatches.forEach(tabButtonMatch => {
+          setActiveTab(tabButtonMatch, true);
+        });
 
-                // Maintain position in viewport when tab group's offset changes
-                window.scrollBy(0, 0 - (tabBlockOffset - tabBlock.offsetTop));
+        // Maintain position in viewport when tab group's offset changes
+        window.scrollBy(0, 0 - (tabBlockOffset - tabBlock.offsetTop));
 
-                // Remove existing label if not first in array
-                if (tabStorage.indexOf(activeButtonLabel) > 0) {
-                    tabStorage.splice(tabStorage.indexOf(activeButtonLabel), 1);
-                }
-
-                // Add label if not already in first position
-                if (tabStorage.indexOf(activeButtonLabel) !== 0) {
-                    tabStorage.unshift(activeButtonLabel);
-                    sessionStorage.setItem(storageKeys.sync, JSON.stringify(tabStorage));
-                }
-            }
+        // Remove existing label if not first in array
+        if (tabStorage.indexOf(activeButtonLabel) > 0) {
+          tabStorage.splice(tabStorage.indexOf(activeButtonLabel), 1);
         }
+
+        // Add label if not already in first position
+        if (tabStorage.indexOf(activeButtonLabel) !== 0) {
+          tabStorage.unshift(activeButtonLabel);
+          sessionStorage.setItem(storageKeys.sync, JSON.stringify(tabStorage));
+        }
+      }
     }
+  }
 }
 
 /**
  * Sets the active tab based on the anchor ID in the URL
  */
 function setActiveTabFromAnchor() {
-    const anchorID              = decodeURIComponent((window.location.hash.match(/(?:id=)([^&]+)/) || [])[1]);
-    const anchorSelector        = anchorID && `.${classNames.tabBlock} #${anchorID}`;
-    const isAnchorElmInTabBlock = anchorID && document.querySelector(anchorSelector);
+  const anchorID = decodeURIComponent(
+    (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1]
+  );
+  const anchorSelector = anchorID && `.${classNames.tabBlock} #${anchorID}`;
+  const isAnchorElmInTabBlock =
+    anchorID && document.querySelector(anchorSelector);
 
-    if (isAnchorElmInTabBlock) {
-        const anchorElm = document.querySelector(`#${anchorID}`);
+  if (isAnchorElmInTabBlock) {
+    const anchorElm = document.querySelector(`#${anchorID}`);
 
-        let tabContent;
+    let tabContent;
 
-        if (anchorElm.closest) {
-            tabContent = anchorElm.closest(`.${classNames.tabContent}`);
-        }
-        else {
-            tabContent = anchorElm.parentNode;
+    if (anchorElm.closest) {
+      tabContent = anchorElm.closest(`.${classNames.tabContent}`);
+    } else {
+      tabContent = anchorElm.parentNode;
 
-            while (tabContent !== document.body && !tabContent.classList.contains(`${classNames.tabContent}`)) {
-                tabContent = tabContent.parentNode;
-            }
-        }
-
-        setActiveTab(tabContent.previousElementSibling);
+      while (
+        tabContent !== document.body &&
+        !tabContent.classList.contains(`${classNames.tabContent}`)
+      ) {
+        tabContent = tabContent.parentNode;
+      }
     }
-}
 
+    setActiveTab(tabContent.previousElementSibling);
+  }
+}
 
 // Plugin
 // =============================================================================
 function docsifyTabs(hook, vm) {
-    let hasTabs = false;
+  let hasTabs = false;
 
-    hook.beforeEach(function(content) {
-        hasTabs = regex.tabBlockMarkup.test(content);
+  hook.beforeEach(function (content) {
+    hasTabs = regex.tabBlockMarkup.test(content);
 
-        if (hasTabs) {
-            content = renderTabsStage1(content, vm);
-        }
+    if (hasTabs) {
+      content = renderTabsStage1(content, vm);
+    }
 
-        return content;
-    });
+    return content;
+  });
 
-    hook.afterEach(function(html, next) {
-        if (hasTabs) {
-            html = renderTabsStage2(html);
-        }
+  hook.afterEach(function (html, next) {
+    if (hasTabs) {
+      html = renderTabsStage2(html);
+    }
 
-        next(html);
-    });
+    next(html);
+  });
 
-    hook.doneEach(function() {
-        if (hasTabs) {
-            setDefaultTabs();
-        }
-    });
+  hook.doneEach(function () {
+    if (hasTabs) {
+      setDefaultTabs();
+    }
+  });
 
-    hook.mounted(function() {
-        const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
+  hook.mounted(function () {
+    const tabsContainer = document.querySelector(
+      `.${classNames.tabsContainer}`
+    );
 
-        tabsContainer && tabsContainer.addEventListener('click', function handleTabClick(evt) {
-            setActiveTab(evt.target);
-        });
+    tabsContainer &&
+      tabsContainer.addEventListener('click', function handleTabClick(evt) {
+        setActiveTab(evt.target);
+      });
 
-        window.addEventListener('hashchange', setActiveTabFromAnchor, false);
-    });
+    window.addEventListener('hashchange', setActiveTabFromAnchor, false);
+  });
 }
 
-
 if (window) {
-    window.$docsify = window.$docsify || {};
+  window.$docsify = window.$docsify || {};
 
-    // Add config object
-    window.$docsify.tabs = window.$docsify.tabs || {};
+  // Add config object
+  window.$docsify.tabs = window.$docsify.tabs || {};
 
-    // Update settings based on $docsify config
-    Object.keys(window.$docsify.tabs).forEach(key => {
-        if (Object.prototype.hasOwnProperty.call(settings, key)) {
-            settings[key] = window.$docsify.tabs[key];
-        }
-    });
-
-    // Add plugin data
-    window.$docsify.tabs.version = pkgVersion;
-
-    // Init plugin
-    if (settings.tabComments || settings.tabHeadings) {
-        window.$docsify.plugins = [].concat(
-            (window.$docsify.plugins || []),
-            docsifyTabs
-        );
+  // Update settings based on $docsify config
+  Object.keys(window.$docsify.tabs).forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(settings, key)) {
+      settings[key] = window.$docsify.tabs[key];
     }
+  });
+
+  // Add plugin data
+  window.$docsify.tabs.version = pkgVersion;
+
+  // Init plugin
+  if (settings.tabComments || settings.tabHeadings) {
+    window.$docsify.plugins = [].concat(
+      window.$docsify.plugins || [],
+      docsifyTabs
+    );
+  }
 }

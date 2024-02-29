@@ -1,5 +1,4 @@
-<!-- markdownlint-disable-next-line first-line-heading -->
-- [Documentation](/)
+- [Documentation](/) <!-- markdownlint-disable-line first-line-heading -->
 - [Changelog](changelog)
 - **Links**
 - [![GitHub](assets/img/github.svg)GitHub](https://github.com/jhildenbiddle/docsify-tabs)

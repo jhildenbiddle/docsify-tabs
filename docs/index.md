@@ -39,13 +39,13 @@ function add(a, b) {
 
 Life is what happens when you're busy making other plans.
 
-\- *John Lennon*
+\- _John Lennon_
 
 #### **Nested Tab 2**
 
 The greatest glory in living lies not in never falling, but in rising every time we fall.
 
-\- *Nelson Mandela*
+\- _Nelson Mandela_
 
 <!-- tabs:end -->
 
@@ -117,11 +117,11 @@ This is some text.
    window.$docsify = {
      // ...
      tabs: {
-       persist    : true,      // default
-       sync       : true,      // default
-       theme      : 'classic', // default
-       tabComments: true,      // default
-       tabHeadings: true       // default
+       persist: true, // default
+       sync: true, // default
+       theme: 'classic', // default
+       tabComments: true, // default
+       tabHeadings: true // default
      }
    };
    ```
@@ -202,11 +202,11 @@ Options are set within the [`window.$docsify`](https://docsify.js.org/#/configur
   window.$docsify = {
     // ...
     tabs: {
-      persist    : true,      // default
-      sync       : true,      // default
-      theme      : 'classic', // default
-      tabComments: true,      // default
-      tabHeadings: true       // default
+      persist: true, // default
+      sync: true, // default
+      theme: 'classic', // default
+      tabComments: true, // default
+      tabHeadings: true // default
     }
   };
 </script>
@@ -558,15 +558,15 @@ More advanced styling can be applied by leveraging the CSS class names and data 
 
 ```html
 <button class="docsify-tabs__tab" data-tab="my tab">My Tab</button>
-<div class="docsify-tabs__content" data-tab-content="my tab">
-  ...
-</div>
+<div class="docsify-tabs__content" data-tab-content="my tab">...</div>
 ```
 
 When the tab is active, note the addition of the `docsify-tabs__tab--active` class:
 
 ```html
-<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="my tab">Basic Tab</button>
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="my tab">
+  Basic Tab
+</button>
 ```
 
 **Examples**
@@ -590,24 +590,27 @@ When the tab is active, note the addition of the `docsify-tabs__tab--active` cla
 **HTML Output**
 
 ```html
-<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="active state">Active State</button>
-<div class="docsify-tabs__content" data-tab-content="active state">
-  ...
-</div>
+<button
+  class="docsify-tabs__tab docsify-tabs__tab--active"
+  data-tab="active state"
+>
+  Active State
+</button>
+<div class="docsify-tabs__content" data-tab-content="active state">...</div>
 ```
 
 **Custom CSS**
 
 ```css
-.docsify-tabs__tab--active[data-tab="active state"] {
+.docsify-tabs__tab--active[data-tab='active state'] {
   box-shadow: none;
   background: #13547a;
   color: white;
 }
-.docsify-tabs__content[data-tab-content="active state"] {
+.docsify-tabs__content[data-tab-content='active state'] {
   background-image: linear-gradient(0deg, #80d0c7 0%, #13547a 100%);
 }
-.docsify-tabs__content[data-tab-content="active state"] p strong {
+.docsify-tabs__content[data-tab-content='active state'] p strong {
   color: white;
 }
 ```
@@ -637,16 +640,16 @@ CodePen Embed Code...
 **HTML Output**
 
 ```html
-<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="codepen">CodePen</button>
-<div class="docsify-tabs__content" data-tab-content="codepen">
-  ...
-</div>
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="codepen">
+  CodePen
+</button>
+<div class="docsify-tabs__content" data-tab-content="codepen">...</div>
 ```
 
 **Custom CSS**
 
 ```css
-[data-tab-content="codepen"] .cp_embed_wrapper {
+[data-tab-content='codepen'] .cp_embed_wrapper {
   position: relative;
   top: calc(0px - var(--docsifytabs-content-padding));
   left: calc(0px - var(--docsifytabs-content-padding));
@@ -654,7 +657,7 @@ CodePen Embed Code...
   margin-bottom: calc(0px - var(--docsifytabs-content-padding));
 }
 
-[data-tab-content="codepen"] .cp_embed_wrapper > * {
+[data-tab-content='codepen'] .cp_embed_wrapper > * {
   margin: 0;
 }
 ```
@@ -676,7 +679,7 @@ CodePen Embed Code...
 **Custom CSS**
 
 ```css
-[data-tab="badge"]:after {
+[data-tab='badge']:after {
   content: 'New!';
   position: absolute;
   top: 0;
