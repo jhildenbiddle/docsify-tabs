@@ -44,7 +44,7 @@ browserSync.init({
             // Ex2: http://cdn.com/package-name@1.0.0
             // Ex3: https://cdn.com/package-name@latest
             match  : /(?:https?:)*\/\/.*cdn.*docsify-tabs[@\d.latest]*(?=["'])/g,
-            replace: '/docsify-tabs.min.js'
+            replace: '/docsify-tabs.js'
         },
         {
             // CDN paths to local paths
