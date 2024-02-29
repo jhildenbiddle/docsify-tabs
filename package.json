@@ -37,7 +37,7 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf --glob dist/*",
     "escheck": "es-check es5 'dist/**/*.js'",
     "lint": "prettier . --check && eslint . && markdownlint *.md docs/*.md --ignore node_modules",
     "lint:fix": "prettier . --write && eslint . --fix",
