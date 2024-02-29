@@ -564,9 +564,7 @@ More advanced styling can be applied by leveraging the CSS class names and data 
 When the tab is active, note the addition of the `docsify-tabs__tab--active` class:
 
 ```html
-<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="my tab">
-  Basic Tab
-</button>
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="my tab">Basic Tab</button>
 ```
 
 **Examples**
@@ -590,10 +588,7 @@ When the tab is active, note the addition of the `docsify-tabs__tab--active` cla
 **HTML Output**
 
 ```html
-<button
-  class="docsify-tabs__tab docsify-tabs__tab--active"
-  data-tab="active state"
->
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="active state">
   Active State
 </button>
 <div class="docsify-tabs__content" data-tab-content="active state">...</div>
@@ -640,9 +635,7 @@ CodePen Embed Code...
 **HTML Output**
 
 ```html
-<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="codepen">
-  CodePen
-</button>
+<button class="docsify-tabs__tab docsify-tabs__tab--active" data-tab="codepen">CodePen</button>
 <div class="docsify-tabs__content" data-tab-content="codepen">...</div>
 ```
 

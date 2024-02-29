@@ -122,8 +122,8 @@
   > .docsify-tabs__content {
     margin-top: calc(0px - var(--docsifytabs-border-px));
     border-top: 0;
-    border-radius: 0 var(--docsifytabs-border-radius-px)
-      var(--docsifytabs-border-radius-px) var(--docsifytabs-border-radius-px);
+    border-radius: 0 var(--docsifytabs-border-radius-px) var(--docsifytabs-border-radius-px)
+      var(--docsifytabs-border-radius-px);
   }
 }
 
@@ -131,16 +131,13 @@
 // -----------------------------------------------------------------------------
 .docsify-tabs--material {
   > .docsify-tabs__tab {
-    margin-bottom: calc(
-      var(--docsifytabs-tab-highlight-px) - var(--docsifytabs-border-px)
-    );
+    margin-bottom: calc(var(--docsifytabs-tab-highlight-px) - var(--docsifytabs-border-px));
     background: transparent;
     border: 0;
   }
 
   > .docsify-tabs__tab--active {
-    box-shadow: 0 var(--docsifytabs-tab-highlight-px) 0 0
-      var(--docsifytabs-tab-highlight-color);
+    box-shadow: 0 var(--docsifytabs-tab-highlight-px) 0 0 var(--docsifytabs-tab-highlight-color);
     background: transparent;
   }
 

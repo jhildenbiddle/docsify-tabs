@@ -126,9 +126,7 @@ function renderTabsStage1(content, vm) {
 
     return codeMarker;
   });
-  const tabTheme = settings.theme
-    ? `${classNames.tabBlock}--${settings.theme}`
-    : '';
+  const tabTheme = settings.theme ? `${classNames.tabBlock}--${settings.theme}` : '';
   const tempElm = document.createElement('div');
 
   let tabBlockMatch = content.match(regex.tabBlockMarkup);
@@ -141,10 +139,8 @@ function renderTabsStage1(content, vm) {
     const tabBlockIndent = tabBlockMatch[1];
     const tabBlockStart = tabBlockMatch[2];
     const tabBlockEnd = tabBlockMatch[4];
-    const hasTabComments =
-      settings.tabComments && regex.tabCommentMarkup.test(tabBlockOut);
-    const hasTabHeadings =
-      settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlockOut);
+    const hasTabComments = settings.tabComments && regex.tabCommentMarkup.test(tabBlockOut);
+    const hasTabHeadings = settings.tabHeadings && regex.tabHeadingMarkup.test(tabBlockOut);
 
     let tabMatch;
     let tabStartReplacement = '';
@@ -157,12 +153,8 @@ function renderTabsStage1(content, vm) {
       // Process each tab panel
       while (
         (tabMatch =
-          (settings.tabComments
-            ? regex.tabCommentMarkup.exec(tabBlockOut)
-            : null) ||
-          (settings.tabHeadings
-            ? regex.tabHeadingMarkup.exec(tabBlockOut)
-            : null)) !== null
+          (settings.tabComments ? regex.tabCommentMarkup.exec(tabBlockOut) : null) ||
+          (settings.tabHeadings ? regex.tabHeadingMarkup.exec(tabBlockOut) : null)) !== null
       ) {
         // Process tab title as markdown
         // Ex: <!-- tab:**Bold** and <span style="color: red;">red</span> -->
@@ -238,15 +230,10 @@ function renderTabsStage2(html) {
 function setDefaultTabs() {
   const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
   const tabBlocks = tabsContainer
-    ? Array.apply(
-        null,
-        tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)
-      )
+    ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`))
     : [];
-  const tabStoragePersist =
-    JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
-  const tabStorageSync =
-    JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
+  const tabStoragePersist = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
+  const tabStorageSync = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
   setActiveTabFromAnchor();
 
@@ -261,10 +248,7 @@ function setDefaultTabs() {
           .map(
             label =>
               Array.apply(null, tabBlock.children).filter(elm =>
-                matchSelector(
-                  elm,
-                  `.${classNames.tabButton}[data-tab="${label}"]`
-                )
+                matchSelector(elm, `.${classNames.tabButton}[data-tab="${label}"]`)
               )[0]
           )
           .filter(elm => elm)[0];
@@ -272,15 +256,11 @@ function setDefaultTabs() {
 
       if (!activeButton && settings.persist) {
         activeButton = Array.apply(null, tabBlock.children).filter(elm =>
-          matchSelector(
-            elm,
-            `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`
-          )
+          matchSelector(elm, `.${classNames.tabButton}[data-tab="${tabStoragePersist[index]}"]`)
         )[0];
       }
 
-      activeButton =
-        activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
+      activeButton = activeButton || tabBlock.querySelector(`.${classNames.tabButton}`);
       activeButton && activeButton.classList.add(classNames.tabButtonActive);
     }
   });
@@ -297,31 +277,23 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
 
   if (activeButton) {
     const activeButtonLabel = activeButton.getAttribute('data-tab');
-    const tabsContainer = document.querySelector(
-      `.${classNames.tabsContainer}`
-    );
+    const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
     const tabBlock = activeButton.parentNode;
     const tabButtons = Array.apply(null, tabBlock.children).filter(elm =>
       matchSelector(elm, 'button')
     );
     const tabBlockOffset = tabBlock.offsetTop;
 
-    tabButtons.forEach(buttonElm =>
-      buttonElm.classList.remove(classNames.tabButtonActive)
-    );
+    tabButtons.forEach(buttonElm => buttonElm.classList.remove(classNames.tabButtonActive));
     activeButton.classList.add(classNames.tabButtonActive);
 
     if (!_isMatchingTabSync) {
       if (settings.persist) {
         const tabBlocks = tabsContainer
-          ? Array.apply(
-              null,
-              tabsContainer.querySelectorAll(`.${classNames.tabBlock}`)
-            )
+          ? Array.apply(null, tabsContainer.querySelectorAll(`.${classNames.tabBlock}`))
           : [];
         const tabBlockIndex = tabBlocks.indexOf(tabBlock);
-        const tabStorage =
-          JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
+        const tabStorage = JSON.parse(sessionStorage.getItem(storageKeys.persist)) || {};
 
         tabStorage[tabBlockIndex] = activeButtonLabel;
         sessionStorage.setItem(storageKeys.persist, JSON.stringify(tabStorage));
@@ -336,8 +308,7 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
               )
             )
           : [];
-        const tabStorage =
-          JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
+        const tabStorage = JSON.parse(sessionStorage.getItem(storageKeys.sync)) || [];
 
         tabButtonMatches.forEach(tabButtonMatch => {
           setActiveTab(tabButtonMatch, true);
@@ -365,12 +336,9 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
  * Sets the active tab based on the anchor ID in the URL
  */
 function setActiveTabFromAnchor() {
-  const anchorID = decodeURIComponent(
-    (window.location.hash.match(/(?:id=)([^&]+)/) || [])[1]
-  );
+  const anchorID = decodeURIComponent((window.location.hash.match(/(?:id=)([^&]+)/) || [])[1]);
   const anchorSelector = anchorID && `.${classNames.tabBlock} #${anchorID}`;
-  const isAnchorElmInTabBlock =
-    anchorID && document.querySelector(anchorSelector);
+  const isAnchorElmInTabBlock = anchorID && document.querySelector(anchorSelector);
 
   if (isAnchorElmInTabBlock) {
     const anchorElm = document.querySelector(`#${anchorID}`);
@@ -424,9 +392,7 @@ function docsifyTabs(hook, vm) {
   });
 
   hook.mounted(function () {
-    const tabsContainer = document.querySelector(
-      `.${classNames.tabsContainer}`
-    );
+    const tabsContainer = document.querySelector(`.${classNames.tabsContainer}`);
 
     tabsContainer &&
       tabsContainer.addEventListener('click', function handleTabClick(evt) {
@@ -455,9 +421,6 @@ if (window) {
 
   // Init plugin
   if (settings.tabComments || settings.tabHeadings) {
-    window.$docsify.plugins = [].concat(
-      window.$docsify.plugins || [],
-      docsifyTabs
-    );
+    window.$docsify.plugins = [].concat(window.$docsify.plugins || [], docsifyTabs);
   }
 }
