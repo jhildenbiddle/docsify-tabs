@@ -1,9 +1,9 @@
-// Dependencies
-// =============================================================================
-const browserSync = require('browser-sync').create();
-const compression = require('compression');
+import { create } from 'browser-sync';
+import compression from 'compression';
 
-browserSync.init({
+const bsServer = create();
+
+bsServer.init({
     files: [
         './dist/**/*.*',
         './docs/**/*.*'

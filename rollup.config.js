@@ -1,16 +1,17 @@
-// Dependencies
-// =============================================================================
-const path = require('path');
+import { babel }     from '@rollup/plugin-babel';
+import commonjs      from '@rollup/plugin-commonjs';
+import eslint        from '@rollup/plugin-eslint';
+import fs            from 'node:fs';
+import json          from '@rollup/plugin-json';
+import { mergician } from 'mergician';
+import path          from 'node:path';
+import postcss       from 'rollup-plugin-postcss';
+import nodeResolve   from '@rollup/plugin-node-resolve';
+import terser        from '@rollup/plugin-terser';
 
-import { babel }       from '@rollup/plugin-babel';
-import commonjs        from '@rollup/plugin-commonjs';
-import { eslint }      from 'rollup-plugin-eslint';
-import json            from '@rollup/plugin-json';
-import mergician       from 'mergician';
-import pkg             from './package.json';
-import postcss         from 'rollup-plugin-postcss';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { terser }      from 'rollup-plugin-terser';
+const pkg = JSON.parse(
+    fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8') // prettier-ignore
+);
 
 
 // Settings
@@ -20,8 +21,8 @@ const currentYear  = (new Date()).getFullYear();
 const releaseYear  = 2018;
 
 // Output
-const entryFile  = path.resolve(__dirname, 'src', 'js', 'index.js');
-const outputFile = path.resolve(__dirname, 'dist', `${pkg.name}.js`);
+const entryFile  = path.resolve('.', 'src', 'js', 'index.js');
+const outputFile = path.resolve('.', 'dist', `${pkg.name}.js`);
 
 // Banner
 const bannerData = [
@@ -40,20 +41,23 @@ const pluginSettings = {
         throwOnError  : true
     },
     babel: {
-        // See .babelrc
-        babelHelpers: 'bundled'
+        babelrc: false,
+        exclude: ['node_modules/**'],
+        babelHelpers: 'bundled',
+        presets: [
+            ['@babel/preset-env', {
+                modules: false,
+                targets: {
+                    browsers: ['ie >= 11']
+                }
+            }]
+        ],
     },
     postcss: {
         inject: {
             insertAt: 'top'
         },
         minimize: true,
-        plugins : [
-            require('postcss-import')(),
-            require('autoprefixer')(),
-            require('postcss-custom-properties')(),
-            require('postcss-flexbugs-fixes')()
-        ]
     },
     terser: {
         beautify: {
