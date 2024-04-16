@@ -336,7 +336,8 @@ function setActiveTab(elm, _isMatchingTabSync = false) {
  * Sets the active tab based on the anchor ID in the URL
  */
 function setActiveTabFromAnchor() {
-  const anchorID = decodeURIComponent((window.location.hash.match(/(?:id=)([^&]+)/) || [])[1]);
+  const uriComponent = window.location.hash || window.location.search;
+  const anchorID = decodeURIComponent((uriComponent.match(/(?:id=)([^&]+)/) || [])[1]);
   const anchorSelector = anchorID && `.${classNames.tabBlock} #${anchorID}`;
   const isAnchorElmInTabBlock = anchorID && document.querySelector(anchorSelector);
 
@@ -398,8 +399,6 @@ function docsifyTabs(hook, vm) {
       tabsContainer.addEventListener('click', function handleTabClick(evt) {
         setActiveTab(evt.target);
       });
-
-    window.addEventListener('hashchange', setActiveTabFromAnchor, false);
   });
 }
 
