@@ -210,7 +210,7 @@ function renderTabsStage1(content, vm) {
  * @returns {string}
  */
 function renderTabsStage2(html) {
-  let tabReplaceMatch; // eslint-disable-line no-unused-vars
+  let tabReplaceMatch;
 
   while ((tabReplaceMatch = regex.commentReplaceMarkup.exec(html)) !== null) {
     const tabComment = tabReplaceMatch[0];
