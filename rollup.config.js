@@ -1,6 +1,5 @@
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import eslint from '@rollup/plugin-eslint';
 import fs from 'node:fs';
 import json from '@rollup/plugin-json';
 import { mergician } from 'mergician';
@@ -34,11 +33,6 @@ const bannerData = [
 
 // Plugins
 const pluginSettings = {
-  eslint: {
-    exclude: ['node_modules/**', './package.json', './src/**/*.{css,scss}'],
-    throwOnWarning: false,
-    throwOnError: true
-  },
   babel: {
     babelrc: false,
     exclude: ['node_modules/**'],
@@ -95,7 +89,6 @@ const config = {
     commonjs(),
     json(),
     postcss(pluginSettings.postcss),
-    eslint(pluginSettings.eslint),
     babel(pluginSettings.babel)
   ],
   watch: {
