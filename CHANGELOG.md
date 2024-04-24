@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.3
+
+_2024-04-24_
+
+- Fix tab heading anchors when using history routerMode (#55)
+
 ## 1.6.2
 
 _2024-02-29_
