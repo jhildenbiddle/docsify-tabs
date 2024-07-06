@@ -56,6 +56,15 @@
   }
 }
 
+.docsify-tabs:not(:has(> button.docsify-tabs__tab--active)) > .docsify-tabs__content[class]:nth-child(2) {
+  visibility: visible;
+  position: relative;
+  overflow: auto;
+  height: auto;
+
+  padding: var(--docsifytabs-content-padding);
+}
+
 // Themes
 // =============================================================================
 [class*='docsify-tabs--'] {
